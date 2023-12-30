@@ -7,4 +7,5 @@ class Field {
     public:
     Field();
     void printField(bool isOwnField);
+    bool placeShip(int startx, int starty, int endx, int endy);
 };
