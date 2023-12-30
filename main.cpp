@@ -4,5 +4,5 @@
 int main() {
     
     Field playerfield;
-    playerfield.printField(false);
+    playerfield.printField(true);
 }
