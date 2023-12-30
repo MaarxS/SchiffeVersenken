@@ -28,6 +28,18 @@ void Field::shoot(int x, int y) {
     field[x][y].shoot();
 }
 
+bool Field::isFinished() {
+    int count = 0;
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            if (field[j][i].isShip() && field[j][i].isShot()) {
+                count++;
+            }
+        }
+    }
+    return count == 30;
+}
+
 void Field::printField(bool isOwnField) {
     std::cout << "  ";
     for (int i = 1; i <= 10; i++) {
