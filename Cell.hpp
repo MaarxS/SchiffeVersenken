@@ -5,9 +5,9 @@ class Cell {
     bool hit = false;
 
     public:
-    Cell(bool isShip);
-    bool isSunkenShip();
+    bool isHitShip();
     bool isMissedShot();
     bool isShip();
     void shoot();
+    void placeShip();
 };

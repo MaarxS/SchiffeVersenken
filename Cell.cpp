@@ -1,10 +1,6 @@
 #include "Cell.hpp"
 
-Cell::Cell(bool isShip) {
-    ship = isShip;
-}
-
-bool Cell::isSunkenShip() {
+bool Cell::isHitShip() {
     return ship && hit;
 }
 
@@ -18,4 +14,8 @@ bool Cell::isShip() {
 
 void Cell::shoot() {
     hit = true;
+}
+
+void Cell::placeShip() {
+    ship = true;
 }

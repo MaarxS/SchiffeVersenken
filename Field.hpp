@@ -5,6 +5,6 @@ class Field {
     Cell field[10][10];
 
     public:
-    void printOwnField();
-    void printEnemyField();
+    Field();
+    void printField(bool isOwnField);
 };
