@@ -22,11 +22,11 @@ void getPlayerInput(){
         std::cout << "Bitte geben Sie die Endposition ihres Schlachtschiffes (5) an: " << std::endl;
         std::cin >> coordinates_end;
 
-        number_correct = checkUserInput(coordinates_start, coordinates_end, 5);
+        number_correct = checkPlayerInput(coordinates_start, coordinates_end, 5);
     }while(!number_correct);
 
 }
-bool checkUserInput(std::string start_coordinates, std::string end_coordinates, int expected_size){
+bool checkPlayerInput(std::string start_coordinates, std::string end_coordinates, int expected_size){
     Field playerfield;
     int x_value_start;
     int y_value_start;
@@ -71,7 +71,7 @@ bool checkUserInput(std::string start_coordinates, std::string end_coordinates, 
     length_x = fabs(x_value_start - x_value_end);
     length_y = fabs(y_value_start - y_value_end);
 
-    if(length_x != expected_size || length_y != expected_size){
+    if(length_x != expected_size && length_y != expected_size){
         std::cout << "Bitte geben Sie ein Schiff der Laenge " << expected_size << " an. "<<std::endl;
         return false;
     }
