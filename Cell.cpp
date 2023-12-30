@@ -1,17 +1,21 @@
 #include "Cell.hpp"
 
-bool Cell::isSunkenShip() {
+Cell::Cell(bool isShip) {
+    ship = isShip;
+}
 
+bool Cell::isSunkenShip() {
+    return ship && hit;
 }
 
 bool Cell::isMissedShot() {
-
+    return !ship && hit;
 }
 
 bool Cell::isShip() {
-
+    return ship;
 }
 
-bool Cell::shoot() {
-
+void Cell::shoot() {
+    hit = true;
 }

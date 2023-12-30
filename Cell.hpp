@@ -1,12 +1,13 @@
 #pragma once
 
 class Cell {
-    bool isShip = false;
-    bool isHit = false;
+    bool ship = false;
+    bool hit = false;
 
     public:
+    Cell(bool isShip);
     bool isSunkenShip();
     bool isMissedShot();
     bool isShip();
-    bool shoot();
+    void shoot();
 };
