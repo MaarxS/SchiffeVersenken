@@ -1,8 +1,9 @@
 #include "Field.hpp"
-
+#include "Computer.hpp"
 
 int main() {
     
-    Field playerfield;
-    playerfield.printField(true);
+    Computer computer;
+    computer.placeShips();
+    computer.getField()->printField(true);
 }
