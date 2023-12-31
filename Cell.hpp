@@ -5,8 +5,7 @@ class Cell {
     bool hit = false;
 
     public:
-    bool isHitShip();
-    bool isMissedShot();
+    bool isShot();
     bool isShip();
     void shoot();
     void placeShip();

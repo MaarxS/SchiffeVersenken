@@ -1,11 +1,7 @@
 #include "Cell.hpp"
 
-bool Cell::isHitShip() {
-    return ship && hit;
-}
-
-bool Cell::isMissedShot() {
-    return !ship && hit;
+bool Cell::isShot() {
+    return hit;
 }
 
 bool Cell::isShip() {
