@@ -72,7 +72,7 @@ bool checkPlayerInput(std::string start_coordinates, std::string end_coordinates
     int length_x;
     int length_y;
 
-    if(start_coordinates.length() >= 3 || end_coordinates.length() >= 3){
+    if(start_coordinates.length() > 2 || end_coordinates.length() > 2 || start_coordinates.length() < 2 || end_coordinates.length() < 2){
           std::cout << "Bitte geben Sie gültige Koordinaten bestehend aus x und y an. " << std::endl;
           return false;
     }
