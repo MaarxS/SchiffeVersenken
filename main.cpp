@@ -78,22 +78,22 @@ bool checkPlayerInput(std::string start_coordinates, std::string end_coordinates
     }
     if(isdigit(start_coordinates[0])){
         x_value_start = start_coordinates[0] - '0';
-        std::tolower(start_coordinates[1]);
-        y_value_start = start_coordinates[1]- '@';
+        start_coordinates[1] = std::tolower(start_coordinates[1]);
+        y_value_start = start_coordinates[1]- 'a';
     }else{
         x_value_start = start_coordinates[1] - '0';
-        std::tolower(start_coordinates[0]);
-        y_value_start = start_coordinates[0] - '@';
+        start_coordinates[0] = std::tolower(start_coordinates[0]);
+        y_value_start = start_coordinates[0] - 'a';
     }
 
     if(isdigit(end_coordinates[0])){
         x_value_end = end_coordinates[0] - '0';
-        std::tolower(end_coordinates[1]);
-        y_value_end = end_coordinates[1]- '@';
+        end_coordinates[1] = std::tolower(end_coordinates[1]);
+        y_value_end = end_coordinates[1]- 'a';
     }else{
         x_value_end = end_coordinates[1] - '0';
-        std::tolower(end_coordinates[0]);
-        y_value_end = end_coordinates[0] - '@';
+        end_coordinates[0] = std::tolower(end_coordinates[0]);
+        y_value_end = end_coordinates[0] - 'a';
     }
     std::cout << x_value_start << std::endl;
     std::cout << x_value_end << std::endl;
@@ -104,8 +104,8 @@ bool checkPlayerInput(std::string start_coordinates, std::string end_coordinates
         return false;
     }
 
-    length_x = fabs(x_value_start - x_value_end);
-    length_y = fabs(y_value_start - y_value_end);
+    length_x = abs(x_value_start - x_value_end);
+    length_y = abs(y_value_start - y_value_end);
 
     std::cout << length_x << std::endl;
     std::cout << length_y << std::endl;
@@ -113,13 +113,23 @@ bool checkPlayerInput(std::string start_coordinates, std::string end_coordinates
         std::cout << "Bitte geben Sie ein Schiff der Laenge " << expected_size << " an. "<<std::endl;
         return false;
     }
-    std::cout<<"bbbbbb"<<std::endl;
-    if(!playerfield.placeShip(x_value_start, x_value_end, y_value_start, y_value_end)){
+    int swap;
+    if(y_value_start > y_value_end){
+        swap = y_value_start;
+        y_value_start = y_value_end;
+        y_value_end = swap;
+        
+    }else if(x_value_start > x_value_end){
+        swap = x_value_start;
+        x_value_start = x_value_end;
+        x_value_end = swap;
+    }
+    
+    if(!playerfield.placeShip(x_value_start, y_value_start, x_value_end, y_value_end)){
         std::cout << "Bitte achten Sie darauf, dass die Schiffe sich nicht schneiden, berühren oder diagonal platziert werden. " << std::endl;
         return false;
     }
 
-    std::cout<<"aaaaa"<<std::endl;
     playerfield.printField(true);
     return true;
 }

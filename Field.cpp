@@ -22,11 +22,13 @@ bool Field::placeShip(int startx, int starty, int endx, int endy) {
             field[i][j].placeShip();
         }
     }
+    return true;
 }
+
 
 void Field::printField(bool isOwnField) {
     std::cout << "  ";
-    for (int i = 1; i <= 10; i++) {
+    for (int i = 0; i <= 9; i++) {
         std::cout << i << ' ';
     }
     std::cout << std::endl;
@@ -49,7 +51,7 @@ void Field::printField(bool isOwnField) {
         std::cout << c << ' ' << std::endl;
     }
     std::cout << "  ";
-    for (int i = 1; i <= 10; i++) {
+    for (int i = 0; i <= 9; i++) {
         std::cout << i << ' ';
     }
     std::cout << std::endl;
