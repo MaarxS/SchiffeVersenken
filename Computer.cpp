@@ -84,17 +84,17 @@ void shootRandomFreeCoordinate(Field &field) {
  */
 bool continueShootingDirection(Field &field, int dir, int x, int y) {
     if (dir == 0) {
-        if (x <= 0) return true; // left border reached
-        x--;
-    } else if (dir == 1) {
         if (x >= 9) return true; // right border reached
         x++;
+    } else if (dir == 1) {
+        if (x <= 0) return true; // left border reached
+        x--;
     } else if (dir == 2) {
-        if (y <= 0) return true; // upper border reached
-        y--;
-    } else {
         if (y >= 9) return true; // lower border reached
         y++;
+    } else {
+        if (y <= 0) return true; // upper border reached
+        y--;
     }
     if (field.isShot(x, y) && !field.isShip(x, y)) { // end of ship which was previously found
         return true;
@@ -107,8 +107,11 @@ bool continueShootingDirection(Field &field, int dir, int x, int y) {
 }
 
 void Computer::continueFindingShip(Field &field, int x, int y) {
+    bool orientation = GetRandomNumberBetween(0, 1);
     for (int i = 0; i < 4; i++) {
-        bool moveFinished = !continueShootingDirection(field, i, x, y);
+        int dir = orientation ? i : (i + 2) % 4;
+        std::cout << dir << std::endl;
+        bool moveFinished = !continueShootingDirection(field, dir, x, y);
         if (moveFinished) {
             return;
         }
@@ -123,7 +126,7 @@ void Computer::shoot(Field &enemyField) {
     std::pair<int, int> coords = findDamagedShip(field);
     if (coords.first == -1) {
         shootRandomFreeCoordinate(field);
-    } else {
+    } else if (true) {
         continueFindingShip(field, coords.first, coords.second);
     }
 }
