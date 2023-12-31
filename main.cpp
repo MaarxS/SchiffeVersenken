@@ -1,4 +1,5 @@
 #include "Field.hpp"
+#include "Save.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -10,10 +11,15 @@ int main() {
     
     Field playerfield;
     Field botfield;
-    playerShot(botfield);
-    botfield.printField(false);
-    playerfield.printField(false);
-    getPlayerInput(playerfield);
+    Save safe;
+    safe.loadGame(playerfield, botfield, "Spiel1");
+
+    // playerShot(botfield);
+    // safe.saveGame(playerfield, botfield, "Spiel1");
+    playerfield.printField(true);
+    botfield.printField(true);
+    
+    // getPlayerInput(playerfield);
 
 }
 

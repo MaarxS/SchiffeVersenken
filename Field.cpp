@@ -28,7 +28,15 @@ bool Field::placeShip(int startx, int starty, int endx, int endy) {
 void Field::shoot(int x, int y) {
     field[x][y].shoot();
 }
-
+void Field::setShip(int x, int y){
+    field[x][y].placeShip();
+}
+bool Field::isShip(int x, int y) {
+    return field[x][y].isShip();
+}
+bool Field::isShot(int x, int y) {
+    return field[x][y].isShot();
+}
 bool Field::isFinished() {
     int count = 0;
     for (int i = 0; i < 10; i++) {
