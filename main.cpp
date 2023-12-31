@@ -1,4 +1,5 @@
 #include "Field.hpp"
+#include "Computer.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -7,9 +8,14 @@ bool checkPlayerInput(std::string start_coordinates, std::string end_coordinates
 
 int main() {
     
-    Field playerfield;
-    playerfield.printField(false);
-    getPlayerInput();
+    Computer com;
+    com.placeShips();
+    com.getField()->printField(true);
+    while (true) {
+        getchar();
+        com.shoot(*com.getField());
+        com.getField()->printField(true);
+    }
 
 }
 

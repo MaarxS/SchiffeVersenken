@@ -29,6 +29,14 @@ void Field::shoot(int x, int y) {
     field[x][y].shoot();
 }
 
+bool Field::isShip(int x, int y) {
+    return field[x][y].isShip();
+}
+
+bool Field::isShot(int x, int y) {
+    return field[x][y].isShot();
+}
+
 bool Field::isFinished() {
     int count = 0;
     for (int i = 0; i < 10; i++) {
