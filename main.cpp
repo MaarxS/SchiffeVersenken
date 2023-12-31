@@ -3,11 +3,15 @@
 #include <cmath>
 
 void getPlayerInput(Field &playerfield);
-bool checkPlayerInput(std::string start_coordinates, std::string end_coordinates, int expected_size);
+bool checkPlayerInput(Field &playerfield, std::string start_coordinates, std::string end_coordinates, int expected_size);
+void playerShot(Field &botfield);
 
 int main() {
     
     Field playerfield;
+    Field botfield;
+    playerShot(botfield);
+    botfield.printField(false);
     playerfield.printField(false);
     getPlayerInput(playerfield);
 
@@ -71,35 +75,41 @@ bool checkPlayerInput(Field &playerfield, std::string start_coordinates, std::st
     int length_x;
     int length_y;
 
-    if(start_coordinates.length() > 2 || end_coordinates.length() > 2 || start_coordinates.length() < 2 || end_coordinates.length() < 2){
-          std::cout << "Bitte geben Sie gültige Koordinaten bestehend aus x und y an. " << std::endl;
+    if(start_coordinates.length() != 2 || end_coordinates.length() != 2){
+          std::cout << "Bitte geben Sie gueltige Koordinaten bestehend aus x und y an. " << std::endl;
           return false;
     }
     if(isdigit(start_coordinates[0])){
         x_value_start = start_coordinates[0] - '0';
         start_coordinates[1] = std::tolower(start_coordinates[1]);
         y_value_start = start_coordinates[1]- 'a';
-    }else{
+    }else if(isdigit(start_coordinates[1])){
         x_value_start = start_coordinates[1] - '0';
         start_coordinates[0] = std::tolower(start_coordinates[0]);
         y_value_start = start_coordinates[0] - 'a';
+    }else{
+         std::cout << "Bitte geben Sie gueltige Startkoordinaten an. " << std::endl;
+        return false;
     }
 
     if(isdigit(end_coordinates[0])){
         x_value_end = end_coordinates[0] - '0';
         end_coordinates[1] = std::tolower(end_coordinates[1]);
         y_value_end = end_coordinates[1]- 'a';
-    }else{
+    }else if(isdigit(end_coordinates[1])){
         x_value_end = end_coordinates[1] - '0';
         end_coordinates[0] = std::tolower(end_coordinates[0]);
         y_value_end = end_coordinates[0] - 'a';
+    }else{
+        std::cout << "Bitte geben Sie gueltige Endkoordinaten an. " << std::endl;
+        return false;
     }
     std::cout << x_value_start << std::endl;
     std::cout << x_value_end << std::endl;
     std::cout << y_value_start << std::endl;
     std::cout << y_value_end << std::endl;
     if(x_value_start > 9 || x_value_start < 0 || y_value_start < 0 || y_value_start > 9 || x_value_end > 9 || x_value_end < 0 || y_value_end < 0 || y_value_end > 9 ){
-         std::cout << "Bitte geben Sie Zahlen im gültigen Zahlenbereich an. " << std::endl;
+         std::cout << "Bitte geben Sie Koordinaten im gueltigen Zahlenbereich an. " << std::endl;
         return false;
     }
 
@@ -125,10 +135,50 @@ bool checkPlayerInput(Field &playerfield, std::string start_coordinates, std::st
     }
     
     if(!playerfield.placeShip(x_value_start, y_value_start, x_value_end, y_value_end)){
-        std::cout << "Bitte achten Sie darauf, dass die Schiffe sich nicht schneiden, berühren oder diagonal platziert werden. " << std::endl;
+        std::cout << "Bitte achten Sie darauf, dass die Schiffe sich nicht schneiden, beruehren oder diagonal platziert werden. " << std::endl;
         return false;
     }
 
     playerfield.printField(true);
     return true;
+}
+void playerShot(Field &botfield){
+    std::string coordinates;
+    bool input_correct = false;
+    int x_value;
+    int y_value;
+
+
+    do{
+        std::cout << "Bitte geben Sie Ihre Zielkoordinaten an." << std::endl;
+        std::cin >> coordinates;
+
+        if(coordinates.length() != 2){
+            std::cout << "Bitte geben Sie gueltige Koordinaten bestehend aus x und y an. " << std::endl;
+            continue;
+        }
+        if(isdigit(coordinates[0])){
+            x_value = coordinates[0] - '0';
+            coordinates[1] = std::tolower(coordinates[1]);
+            y_value = coordinates[1]- 'a';
+        }else if(isdigit(coordinates[1])){
+             x_value = coordinates[1] - '0';
+            coordinates[0] = std::tolower(coordinates[0]);
+            y_value = coordinates[0] - 'a';
+        }else{
+            std::cout << "Bitte geben Sie gueltige Zielkoordinaten an. " << std::endl;
+            continue;
+        }
+        if(x_value > 9 || x_value < 0 || y_value > 9 || y_value < 0){
+            std::cout << "Bitte geben Sie Koordinaten im gueltigen Zahlenbereich an. " << std::endl;
+            continue;
+        }
+        botfield.shoot(x_value, y_value);
+        input_correct = true;
+
+    }while(!input_correct);
+
+
+
+
 }
