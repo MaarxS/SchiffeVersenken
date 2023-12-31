@@ -6,20 +6,16 @@
 void getPlayerInput(Field &playerfield);
 bool checkPlayerInput(Field &playerfield, std::string start_coordinates, std::string end_coordinates, int expected_size);
 void playerShot(Field &botfield);
+void menu(Field &playerfield, Field &botfield);
 
 int main() {
     
     Field playerfield;
     Field botfield;
-    Save safe;
-    safe.loadGame(playerfield, botfield, "Spiel1");
-
-    // playerShot(botfield);
-    // safe.saveGame(playerfield, botfield, "Spiel1");
+    menu(playerfield, botfield);
     playerfield.printField(true);
     botfield.printField(true);
-    
-    // getPlayerInput(playerfield);
+    getPlayerInput(playerfield);
 
 }
 
@@ -183,8 +179,44 @@ void playerShot(Field &botfield){
         input_correct = true;
 
     }while(!input_correct);
+}
+void menu(Field &playerfield, Field &botfield){
+    Save safe;
+    int mode;
+    bool mode_success = false;
+    std::string filename;
+    do{
+        std::cout << "Bitte waehlen Sie eine Option aus:" << std::endl;
+        std::cout << "Neues Spiel starten (1)" << std::endl;
+        std::cout << "Altes Spiel vortsetzen (2)" << std::endl;
+        std::cout << "aktuelles Spiel Speichern (3)" << std::endl;
+        std::cout << "Programm beenden (4)" << std::endl;
+        std::cout << "Sie koennen Jederzeit ueber die Eingabe \'stop\' ins Hauptmenue zurueck." << std::endl;
+        std::cin >> mode;
 
-
-
-
+    switch(mode){
+        case 1:
+        mode_success = true;
+        break;
+        case 2:
+        mode_success = true;
+        std::cout << "Bitte geben Sie den Dateinamen ein:" <<  std::endl;
+        std::cin >> filename;
+        safe.loadGame(playerfield, botfield, filename);
+        break;
+        case 3:
+        mode_success = true;
+        std::cout << "Bitte geben Sie den gewuenschten Dateinamen ein:" <<  std::endl;
+        std::cin >> filename;
+        safe.saveGame(playerfield, botfield, filename);
+        break;
+        case 4:
+        exit(0);
+        break;
+        default:
+        mode_success = false;
+        break;
+    }
+    }while(!mode_success);
+    
 }
