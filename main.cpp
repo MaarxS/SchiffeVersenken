@@ -2,11 +2,15 @@
 #include <iostream>
 #include <cmath>
 
+void getPlayerInput();
+bool checkPlayerInput(std::string start_coordinates, std::string end_coordinates, int expected_size);
+
 int main() {
     
     Field playerfield;
     playerfield.printField(false);
     getPlayerInput();
+
 }
 
 
@@ -25,7 +29,40 @@ void getPlayerInput(){
         number_correct = checkPlayerInput(coordinates_start, coordinates_end, 5);
     }while(!number_correct);
 
+    for(int i = 0; i < 2; i++){
+        do{
+            std::cout << "Bitte geben Sie die Startposition ihres " << i + 1 << " .Kreuzers (4) an: " << std::endl;
+            std::cin >> coordinates_start;
+            std::cout << "Bitte geben Sie die Endposition ihres " << i + 1 << " .Kreuzers (4) an: " << std::endl;
+            std::cin >> coordinates_end;
+
+            number_correct = checkPlayerInput(coordinates_start, coordinates_end, 4);
+        }while(!number_correct);
+    }
+
+    for(int i = 0; i < 3; i++){
+        do{
+            std::cout << "Bitte geben Sie die Startposition ihres " << i + 1 << " .Zerstörers (3) an: " << std::endl;
+            std::cin >> coordinates_start;
+            std::cout << "Bitte geben Sie die Endposition ihres " << i + 1 << " .Zerstörers (3) an: " << std::endl;
+            std::cin >> coordinates_end;
+
+            number_correct = checkPlayerInput(coordinates_start, coordinates_end, 4);
+        }while(!number_correct);
+    }
+
+    for(int i = 0; i < 4; i++){
+        do{
+            std::cout << "Bitte geben Sie die Startposition ihres " << i + 1 << " .U-Boots (2) an: " << std::endl;
+            std::cin >> coordinates_start;
+            std::cout << "Bitte geben Sie die Endposition ihres " << i + 1 << " .U-Boots (2) an: " << std::endl;
+            std::cin >> coordinates_end;
+
+            number_correct = checkPlayerInput(coordinates_start, coordinates_end, 4);
+        }while(!number_correct);
+    }
 }
+
 bool checkPlayerInput(std::string start_coordinates, std::string end_coordinates, int expected_size){
     Field playerfield;
     int x_value_start;
@@ -42,39 +79,47 @@ bool checkPlayerInput(std::string start_coordinates, std::string end_coordinates
     if(isdigit(start_coordinates[0])){
         x_value_start = start_coordinates[0] - '0';
         std::tolower(start_coordinates[1]);
-        y_value_start = start_coordinates[1] - 'a';
+        y_value_start = start_coordinates[1]- '@';
     }else{
         x_value_start = start_coordinates[1] - '0';
         std::tolower(start_coordinates[0]);
-        y_value_start = start_coordinates[0] - 'a';
+        y_value_start = start_coordinates[0] - '@';
     }
 
     if(isdigit(end_coordinates[0])){
         x_value_end = end_coordinates[0] - '0';
         std::tolower(end_coordinates[1]);
-        y_value_end = end_coordinates[1] - 'a';
+        y_value_end = end_coordinates[1]- '@';
     }else{
         x_value_end = end_coordinates[1] - '0';
         std::tolower(end_coordinates[0]);
-        y_value_end = end_coordinates[0] - 'a';
+        y_value_end = end_coordinates[0] - '@';
     }
-
+    std::cout << x_value_start << std::endl;
+    std::cout << x_value_end << std::endl;
+    std::cout << y_value_start << std::endl;
+    std::cout << y_value_end << std::endl;
     if(x_value_start > 9 || x_value_start < 0 || y_value_start < 0 || y_value_start > 9 || x_value_end > 9 || x_value_end < 0 || y_value_end < 0 || y_value_end > 9 ){
-         std::cout << "Bitte geben Sie eine Zahl im gültigen Zahlenbereich an. " << std::endl;
-        return false;
-    }
-    if(!playerfield.placeShip(x_value_start, x_value_end, y_value_start, y_value_end)){
-        std::cout << "Bitte achten Sie darauf, dass die Schiffe sich nicht schneiden, berühren oder diagonal platziert werden. " << std::endl;
+         std::cout << "Bitte geben Sie Zahlen im gültigen Zahlenbereich an. " << std::endl;
         return false;
     }
 
     length_x = fabs(x_value_start - x_value_end);
     length_y = fabs(y_value_start - y_value_end);
 
-    if(length_x != expected_size && length_y != expected_size){
+    std::cout << length_x << std::endl;
+    std::cout << length_y << std::endl;
+    if(length_x != (expected_size - 1) && length_y != (expected_size - 1)){
         std::cout << "Bitte geben Sie ein Schiff der Laenge " << expected_size << " an. "<<std::endl;
         return false;
     }
-    //Schiff setzen
+    std::cout<<"bbbbbb"<<std::endl;
+    if(!playerfield.placeShip(x_value_start, x_value_end, y_value_start, y_value_end)){
+        std::cout << "Bitte achten Sie darauf, dass die Schiffe sich nicht schneiden, berühren oder diagonal platziert werden. " << std::endl;
+        return false;
+    }
+
+    std::cout<<"aaaaa"<<std::endl;
+    playerfield.printField(true);
     return true;
 }
