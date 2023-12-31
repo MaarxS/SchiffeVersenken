@@ -2,19 +2,19 @@
 #include <iostream>
 #include <cmath>
 
-void getPlayerInput();
+void getPlayerInput(Field &playerfield);
 bool checkPlayerInput(std::string start_coordinates, std::string end_coordinates, int expected_size);
 
 int main() {
     
     Field playerfield;
     playerfield.printField(false);
-    getPlayerInput();
+    getPlayerInput(playerfield);
 
 }
 
 
-void getPlayerInput(){
+void getPlayerInput(Field &playerfield){
 
     std::string coordinates_start;
     std::string coordinates_end;
@@ -26,7 +26,7 @@ void getPlayerInput(){
         std::cout << "Bitte geben Sie die Endposition ihres Schlachtschiffes (5) an: " << std::endl;
         std::cin >> coordinates_end;
 
-        number_correct = checkPlayerInput(coordinates_start, coordinates_end, 5);
+        number_correct = checkPlayerInput(playerfield, coordinates_start, coordinates_end, 5);
     }while(!number_correct);
 
     for(int i = 0; i < 2; i++){
@@ -36,7 +36,7 @@ void getPlayerInput(){
             std::cout << "Bitte geben Sie die Endposition ihres " << i + 1 << " .Kreuzers (4) an: " << std::endl;
             std::cin >> coordinates_end;
 
-            number_correct = checkPlayerInput(coordinates_start, coordinates_end, 4);
+            number_correct = checkPlayerInput(playerfield, coordinates_start, coordinates_end, 4);
         }while(!number_correct);
     }
 
@@ -47,7 +47,7 @@ void getPlayerInput(){
             std::cout << "Bitte geben Sie die Endposition ihres " << i + 1 << " .Zerstörers (3) an: " << std::endl;
             std::cin >> coordinates_end;
 
-            number_correct = checkPlayerInput(coordinates_start, coordinates_end, 4);
+            number_correct = checkPlayerInput(playerfield, coordinates_start, coordinates_end, 4);
         }while(!number_correct);
     }
 
@@ -58,13 +58,12 @@ void getPlayerInput(){
             std::cout << "Bitte geben Sie die Endposition ihres " << i + 1 << " .U-Boots (2) an: " << std::endl;
             std::cin >> coordinates_end;
 
-            number_correct = checkPlayerInput(coordinates_start, coordinates_end, 4);
+            number_correct = checkPlayerInput(playerfield, coordinates_start, coordinates_end, 4);
         }while(!number_correct);
     }
 }
 
-bool checkPlayerInput(std::string start_coordinates, std::string end_coordinates, int expected_size){
-    Field playerfield;
+bool checkPlayerInput(Field &playerfield, std::string start_coordinates, std::string end_coordinates, int expected_size){
     int x_value_start;
     int y_value_start;
     int x_value_end;
