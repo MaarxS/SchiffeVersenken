@@ -62,13 +62,13 @@ std::pair<int, int> findDamagedShip(Field &field) {
     return std::pair<int, int>(-1, -1);
 }
 
-void shootRandomFreeCoordinate(Field &field) {
+bool shootRandomFreeCoordinate(Field &field) {
     while (true) {
         int x = GetRandomNumberBetween(0, 9);
         int y = GetRandomNumberBetween(0, 9);
         if (!field.isShot(x, y)) {
             field.shoot(x, y);
-            return;
+            return field.isShip(x, y);
         }
     }
 }
@@ -101,17 +101,30 @@ bool continueShootingDirection(Field &field, int dir, int x, int y) {
     return false; // no ship where the shot hit, move finished
 }
 
-void Computer::continueFindingShip(Field &enemy, int x, int y) {
-    bool orientation = GetRandomNumberBetween(0, 1);
+bool guessOrientation(Field field, int x, int y) {
+    if (x > 0 && field.isShot(x - 1, y) && field.isShip(x - 1, y) 
+    || x < 9 && field.isShot(x + 1, y) && field.isShip(x + 1, y)) {
+        std::cout << "horizontal\n";
+        return 1;
+    }
+    if (y > 0 && field.isShot(x, y - 1) && field.isShip(x, y - 1) 
+    || y < 9 && field.isShot(x, y + 1) && field.isShip(x, y + 1)) {
+        std::cout << "vertcial\n";
+        return 0;
+    }
+    return GetRandomNumberBetween(0, 1);
+}
+
+void Computer::continueFindingShip(Field &field, int x, int y) {
+    bool orientation = guessOrientation(field, x, y);
     for (int i = 0; i < 4; i++) {
         int dir = orientation ? i : (i + 2) % 4;
-        std::cout << dir << std::endl;
-        bool moveFinished = !continueShootingDirection(enemy, dir, x, y);
+        bool moveFinished = !continueShootingDirection(field, dir, x, y);
         if (moveFinished) {
             return;
         }
-        if (enemy.isCompletelySunken(x, y)) {
-            shoot(enemy);
+        if (field.isCompletelySunken(x, y)) {
+            shoot(field);
             return;
         }
     }
@@ -120,7 +133,10 @@ void Computer::continueFindingShip(Field &enemy, int x, int y) {
 void Computer::shoot(Field &enemyField) {
     std::pair<int, int> coords = findDamagedShip(enemyField);
     if (coords.first == -1) {
-        shootRandomFreeCoordinate(enemyField);
+        bool hit = shootRandomFreeCoordinate(enemyField);
+        if (hit) {
+            shoot(enemyField);
+        }
     } else if (true) {
         continueFindingShip(enemyField, coords.first, coords.second);
     }
