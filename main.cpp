@@ -1,5 +1,6 @@
 #include "Field.hpp"
 #include "Save.hpp"
+#include "Computer.hpp"
 #include <iostream>
 #include <cmath>
 
