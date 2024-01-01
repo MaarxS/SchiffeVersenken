@@ -2,12 +2,10 @@
 #include "Field.hpp"
 
 class Computer {
-    Field field;
-    void placeRandomShip(int length);
+    void placeRandomShip(Field &field, int length);
     void continueFindingShip(Field &field, int x, int y);
 
     public:
-    void placeShips();
-    Field* getField();
+    void placeShips(Field &field);
     void shoot(Field &enemyField);
 };

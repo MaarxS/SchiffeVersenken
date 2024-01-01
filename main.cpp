@@ -13,6 +13,8 @@ int main() {
     
     Field playerfield;
     Field botfield;
+    Computer com;
+    com.placeShips(botfield);
     menu(playerfield, botfield);
     playerfield.printField(true);
     botfield.printField(true);

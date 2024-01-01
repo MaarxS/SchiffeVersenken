@@ -1,5 +1,9 @@
 #pragma once
-#include "Cell.hpp"
+
+typedef struct {
+    bool ship = false;
+    bool hit = false;
+} Cell;
 
 class Field {
     Cell field[10][10];
@@ -8,6 +12,7 @@ class Field {
 
     public:
     bool placeShip(int startx, int starty, int endx, int endy);
+    void clear();
     void shoot(int x, int y);
     void setShip(int x, int y);
     bool isShip(int x, int y);

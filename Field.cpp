@@ -19,29 +19,38 @@ bool Field::placeShip(int startx, int starty, int endx, int endy) {
     }
     for (int i = startx; i <= endx; i++) {
         for (int j = starty; j <= endy; j++) {
-            field[i][j].placeShip();
+            field[i][j].ship = true;
         }
     }
     return true;
 }
 
+void Field::clear() {
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            field[j][i].ship = false;
+            field[j][i].hit = false;
+        }
+    }
+}
+
 void Field::shoot(int x, int y) {
-    field[x][y].shoot();
+    field[x][y].hit = true;
 }
 void Field::setShip(int x, int y){
-    field[x][y].placeShip();
+    field[x][y].ship = true;
 }
 bool Field::isShip(int x, int y) {
-    return field[x][y].isShip();
+    return field[x][y].ship;
 }
 bool Field::isShot(int x, int y) {
-    return field[x][y].isShot();
+    return field[x][y].hit;
 }
 bool Field::isFinished() {
     int count = 0;
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
-            if (field[j][i].isShip() && field[j][i].isShot()) {
+            if (field[j][i].ship && field[j][i].hit) {
                 count++;
             }
         }
@@ -56,28 +65,25 @@ void Field::printField(bool isOwnField) {
     }
     std::cout << std::endl;
     for (int i = 0; i < 10; i++) {
-        char c = 'A' + i;
-        std::cout << c << ' ';
+        char columnlabel = 'A' + i;
+        std::cout << columnlabel << ' ';
         for (int j = 0; j < 10; j++) {
-            Cell currentCell = field[j][i];
-            bool isShot = currentCell.isShot();
-            bool isShip = currentCell.isShip();
-            if (isShip && isShot) {
+            if (field[j][i].ship && field[j][i].hit) {
                 if (isCompletelySunken(j, i)) {
                     std::cout << "\x1B[30mX\033[0m"; //schwarz (versenktes Schiff)
                 } else {
                     std::cout << "\x1B[31mX\033[0m"; //rot (getroffen, Schiff nicht versenkt)
                 }
-            } else if (isShot) {
+            } else if (field[j][i].hit) {
                 std::cout << "O"; //Schuss ins Meer
-            } else if (isShip && isOwnField) {
+            } else if (field[j][i].ship && isOwnField) {
                 std::cout << "\xFE"; //weiß (plazierte Schiffe)
             } else {
                 std::cout << "\x1B[36m\xFE\033[0m"; //blau (default Meer)
             }
             std::cout << ' ';
         }
-        std::cout << c << ' ' << std::endl;
+        std::cout << columnlabel << ' ' << std::endl;
     }
     std::cout << "  ";
     for (int i = 0; i <= 9; i++) {
@@ -94,7 +100,7 @@ bool Field::isShipAdjacent(int x, int y) {
     int count = 0;
     for (int i = xstart; i <= xend; i++) {
         for (int j = ystart; j <= yend; j++) {
-            if (field[i][j].isShip()) {
+            if (field[i][j].ship) {
                 return true;
             }
         }
@@ -103,24 +109,24 @@ bool Field::isShipAdjacent(int x, int y) {
 }
 
 bool Field::isCompletelySunken(int x, int y) {
-    if (!field[x][y].isShip()) {
+    if (!field[x][y].ship) {
         return false;
     }
     for (int i = x; i >= 0; i--) {
-        if (!field[i][y].isShip()) break;
-        if (!field[i][y].isShot()) return false;
+        if (!field[i][y].ship) break;
+        if (!field[i][y].hit) return false;
     }
     for (int i = x; i < 10; i++) {
-        if (!field[i][y].isShip()) break;
-        if (!field[i][y].isShot()) return false;
+        if (!field[i][y].ship) break;
+        if (!field[i][y].hit) return false;
     }
     for (int i = y; i >= 0; i--) {
-        if (!field[x][i].isShip()) break;
-        if (!field[x][i].isShot()) return false;
+        if (!field[x][i].ship) break;
+        if (!field[x][i].hit) return false;
     }
     for (int i = y; i < 10; i++) {
-        if (!field[x][i].isShip()) break;
-        if (!field[x][i].isShot()) return false;
+        if (!field[x][i].ship) break;
+        if (!field[x][i].hit) return false;
     }
     return true;
 }

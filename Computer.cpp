@@ -2,33 +2,28 @@
 #include "Field.hpp"
 #include "CppRandom.hpp"
 
-Field* Computer::getField() {
-    return &field;
-}
-
-void Computer::placeShips() {
+void Computer::placeShips(Field &field) {
     bool success = false;
     while (!success) {
         try {
-            placeRandomShip(5);
-            placeRandomShip(4);
-            placeRandomShip(4);
-            placeRandomShip(3);
-            placeRandomShip(3);
-            placeRandomShip(3);
-            placeRandomShip(2);
-            placeRandomShip(2);
-            placeRandomShip(2);
-            placeRandomShip(2);
+            placeRandomShip(field, 5);
+            placeRandomShip(field, 4);
+            placeRandomShip(field, 4);
+            placeRandomShip(field, 3);
+            placeRandomShip(field, 3);
+            placeRandomShip(field, 3);
+            placeRandomShip(field, 2);
+            placeRandomShip(field, 2);
+            placeRandomShip(field, 2);
+            placeRandomShip(field, 2);
             success = true;
         } catch (std::logic_error &e) {
-            Field newField;
-            field = newField;
+            field.clear();
         }
     }
 }
 
-void Computer::placeRandomShip(int length) {
+void Computer::placeRandomShip(Field &field, int length) {
     for (int i = 0; i < 100000; i++) {
         int max = 10 - length;
         int startx = 0;
@@ -106,27 +101,27 @@ bool continueShootingDirection(Field &field, int dir, int x, int y) {
     return false; // no ship where the shot hit, move finished
 }
 
-void Computer::continueFindingShip(Field &field, int x, int y) {
+void Computer::continueFindingShip(Field &enemy, int x, int y) {
     bool orientation = GetRandomNumberBetween(0, 1);
     for (int i = 0; i < 4; i++) {
         int dir = orientation ? i : (i + 2) % 4;
         std::cout << dir << std::endl;
-        bool moveFinished = !continueShootingDirection(field, dir, x, y);
+        bool moveFinished = !continueShootingDirection(enemy, dir, x, y);
         if (moveFinished) {
             return;
         }
-        if (field.isCompletelySunken(x, y)) {
-            shoot(field);
+        if (enemy.isCompletelySunken(x, y)) {
+            shoot(enemy);
             return;
         }
     }
 }
 
 void Computer::shoot(Field &enemyField) {
-    std::pair<int, int> coords = findDamagedShip(field);
+    std::pair<int, int> coords = findDamagedShip(enemyField);
     if (coords.first == -1) {
-        shootRandomFreeCoordinate(field);
+        shootRandomFreeCoordinate(enemyField);
     } else if (true) {
-        continueFindingShip(field, coords.first, coords.second);
+        continueFindingShip(enemyField, coords.first, coords.second);
     }
 }
