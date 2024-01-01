@@ -8,7 +8,7 @@ typedef struct {
 class Field {
     Cell field[10][10];
     bool isShipAdjacent(int x, int y);
-    void markSunkenShip(int x, int y);
+    void shootAroundShip(int x, int y);
 
     public:
     bool placeShip(int startx, int starty, int endx, int endy);

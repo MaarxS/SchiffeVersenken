@@ -36,6 +36,9 @@ void Field::clear() {
 
 void Field::shoot(int x, int y) {
     field[x][y].hit = true;
+    if (isCompletelySunken(x, y)) {
+        shootAroundShip(x, y);
+    }
 }
 void Field::setShip(int x, int y){
     field[x][y].ship = true;
@@ -129,4 +132,29 @@ bool Field::isCompletelySunken(int x, int y) {
         if (!field[x][i].hit) return false;
     }
     return true;
+}
+
+void Field::shootAroundShip(int x , int y) {
+    int xstart = x;
+    int ystart = y;
+    int xend = x;
+    int yend = y;
+    while (xstart > 0 && isShip(xstart, y)) {
+        xstart--;
+    }
+    while (ystart > 0 && isShip(x, ystart)) {
+        ystart--;
+    }
+    while (xend < 9 && isShip(xend, y)) {
+        xend++;
+    }
+    while (yend < 9 && isShip(x, yend)) {
+        yend++;
+    }
+    std::cout << xstart << ystart << xend << yend << std::endl;
+    for (int i = xstart; i <= xend; i++) {
+        for (int j = ystart; j <= yend; j++) {
+            field[i][j].hit = true;
+        }
+    }
 }
