@@ -53,7 +53,7 @@ void getPlayerInput(Field &playerfield){
             std::cout << "Bitte geben Sie die Endposition ihres " << i + 1 << " .Zerstörers (3) an: " << std::endl;
             std::cin >> coordinates_end;
 
-            number_correct = checkPlayerInput(playerfield, coordinates_start, coordinates_end, 4);
+            number_correct = checkPlayerInput(playerfield, coordinates_start, coordinates_end, 3);
         }while(!number_correct);
     }
 
@@ -64,7 +64,7 @@ void getPlayerInput(Field &playerfield){
             std::cout << "Bitte geben Sie die Endposition ihres " << i + 1 << " .U-Boots (2) an: " << std::endl;
             std::cin >> coordinates_end;
 
-            number_correct = checkPlayerInput(playerfield, coordinates_start, coordinates_end, 4);
+            number_correct = checkPlayerInput(playerfield, coordinates_start, coordinates_end, 2);
         }while(!number_correct);
     }
 }
