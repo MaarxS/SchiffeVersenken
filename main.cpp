@@ -1,13 +1,15 @@
 #include "Field.hpp"
 #include "Save.hpp"
 #include "Computer.hpp"
+//#include "CppRandom.hpp" funktioniert nicht
 #include <iostream>
 #include <cmath>
 
 void getPlayerInput(Field &playerfield);
 bool checkPlayerInput(Field &playerfield, std::string start_coordinates, std::string end_coordinates, int expected_size);
-void playerShot(Field &botfield);
+std::pair<int, int> coordinateInput();
 void menu(Field &playerfield, Field &botfield);
+void gameLoop(Field &playerfield, Field &botfield, Computer &com);
 
 int main() {
     
@@ -16,9 +18,39 @@ int main() {
     Computer com;
     com.placeShips(botfield);
     menu(playerfield, botfield);
-    playerfield.printField(true);
-    botfield.printField(true);
     getPlayerInput(playerfield);
+
+    gameLoop(playerfield, botfield, com);
+}
+
+void gameLoop(Field &playerfield, Field &botfield, Computer &com) {
+    // TODO include random funktioniert nicht
+    /*if (GetRandomNumberBetween(0, 1)) {
+        com.shoot(playerfield);
+    }*/
+    while (true) {
+        bool anothermove = true;
+        while (anothermove) {
+            playerfield.printField(true);
+            botfield.printField(false);
+            auto coord = coordinateInput();
+            botfield.shoot(coord.first, coord.second);
+            if (botfield.isFinished()) {
+                playerfield.printField(true);
+                botfield.printField(false);
+                std::cout << "Du hast gewonnen!\n";
+                return;
+            }
+            anothermove = botfield.isShip(coord.first, coord.second);
+        }
+        com.shoot(playerfield);
+        if (playerfield.isFinished()) {
+            playerfield.printField(true);
+            botfield.printField(false);
+            std::cout << "Du hast verloren.\n";
+            return;
+        }
+    }
 
 }
 
@@ -147,14 +179,12 @@ bool checkPlayerInput(Field &playerfield, std::string start_coordinates, std::st
     playerfield.printField(true);
     return true;
 }
-void playerShot(Field &botfield){
+std::pair<int, int> coordinateInput(){
     std::string coordinates;
-    bool input_correct = false;
     int x_value;
     int y_value;
 
-
-    do{
+    while (true) {
         std::cout << "Bitte geben Sie Ihre Zielkoordinaten an." << std::endl;
         std::cin >> coordinates;
 
@@ -178,10 +208,8 @@ void playerShot(Field &botfield){
             std::cout << "Bitte geben Sie Koordinaten im gueltigen Zahlenbereich an. " << std::endl;
             continue;
         }
-        botfield.shoot(x_value, y_value);
-        input_correct = true;
-
-    }while(!input_correct);
+        return std::pair<int, int>(x_value, y_value);
+    }
 }
 void menu(Field &playerfield, Field &botfield){
     Save safe;
