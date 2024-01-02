@@ -1,7 +1,7 @@
 #include "Field.hpp"
 #include "Save.hpp"
 #include "Computer.hpp"
-//#include "CppRandom.hpp" funktioniert nicht
+// #include "CppRandom.hpp" //funktioniert nicht
 #include <iostream>
 #include <cmath>
 
@@ -17,8 +17,8 @@ int main() {
     Field botfield;
     Computer com;
     com.placeShips(botfield);
-    menu(playerfield, botfield);
-    getPlayerInput(playerfield);
+    menu(playerfield, botfield); 
+    
 
     gameLoop(playerfield, botfield, com);
 }
@@ -222,12 +222,13 @@ void menu(Field &playerfield, Field &botfield){
         std::cout << "Altes Spiel vortsetzen (2)" << std::endl;
         std::cout << "aktuelles Spiel Speichern (3)" << std::endl;
         std::cout << "Programm beenden (4)" << std::endl;
-        std::cout << "Sie koennen Jederzeit ueber die Eingabe \'stop\' ins Hauptmenue zurueck." << std::endl;
+        std::cout << "Sie koennen nach dem platzieren Ihrer Schiffe ueber die Eingabe \'stop\' ins Hauptmenue zurueck." << std::endl;
         std::cin >> mode;
 
     switch(mode){
         case 1:
         mode_success = true;
+        getPlayerInput(playerfield);
         break;
         case 2:
         mode_success = true;
