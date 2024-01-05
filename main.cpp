@@ -25,8 +25,9 @@ int main() {
 
 
 void gameLoop(Field &playerfield, Field &botfield, Computer &com) {
+    Random rand;
     // TODO include random funktioniert nicht
-    // if (GetRandomNumberBetween(0, 1)) {
+    // if (rand.GetRandomNumberBetween(0, 1)) {
     //     com.shoot(playerfield);
     // }
     while (true) {

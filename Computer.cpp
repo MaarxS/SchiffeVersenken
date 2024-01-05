@@ -30,14 +30,14 @@ void Computer::placeRandomShip(Field &field, int length) {
         int starty;
         int endx;
         int endy;
-        if (GetRandomNumberBetween(0, 1)) {
-            startx = GetRandomNumberBetween(0, max);
-            starty = GetRandomNumberBetween(0, 9);
+        if (rand.GetRandomNumberBetween(0, 1)) {
+            startx = rand.GetRandomNumberBetween(0, max);
+            starty = rand.GetRandomNumberBetween(0, 9);
             endx = startx + length - 1;
             endy = starty;
         } else {
-            startx = GetRandomNumberBetween(0, 9);
-            starty = GetRandomNumberBetween(0, max);
+            startx = rand.GetRandomNumberBetween(0, 9);
+            starty = rand.GetRandomNumberBetween(0, max);
             endx = startx;
             endy = starty + length - 1;
         }
@@ -62,10 +62,10 @@ std::pair<int, int> findDamagedShip(Field &field) {
     return std::pair<int, int>(-1, -1);
 }
 
-bool shootRandomFreeCoordinate(Field &field) {
+bool Computer::shootRandomFreeCoordinate(Field &field) {
     while (true) {
-        int x = GetRandomNumberBetween(0, 9);
-        int y = GetRandomNumberBetween(0, 9);
+        int x = rand.GetRandomNumberBetween(0, 9);
+        int y = rand.GetRandomNumberBetween(0, 9);
         if (!field.isShot(x, y)) {
             field.shoot(x, y);
             return field.isShip(x, y);
@@ -101,7 +101,7 @@ bool continueShootingDirection(Field &field, int dir, int x, int y) {
     return false; // no ship where the shot hit, move finished
 }
 
-bool guessOrientation(Field field, int x, int y) {
+bool Computer::guessOrientation(Field field, int x, int y) {
     if (x > 0 && field.isShot(x - 1, y) && field.isShip(x - 1, y) 
     || x < 9 && field.isShot(x + 1, y) && field.isShip(x + 1, y)) {
         std::cout << "horizontal\n";
@@ -112,7 +112,7 @@ bool guessOrientation(Field field, int x, int y) {
         std::cout << "vertcial\n";
         return 0;
     }
-    return GetRandomNumberBetween(0, 1);
+    return rand.GetRandomNumberBetween(0, 1);
 }
 
 void Computer::continueFindingShip(Field &field, int x, int y) {
