@@ -8,7 +8,7 @@
 void getPlayerInput(Field &playerfield);
 bool checkPlayerInput(Field &playerfield, std::string start_coordinates, std::string end_coordinates, int expected_size);
 std::pair<int, int> coordinateInput();
-void menu(Field &playerfield, Field &botfield);
+void menu(Field &playerfield, Field &botfield, Computer &com);
 void gameLoop(Field &playerfield, Field &botfield, Computer &com);
 
 int main() {
@@ -16,24 +16,28 @@ int main() {
     Field playerfield;
     Field botfield;
     Computer com;
-    com.placeShips(botfield);
-    menu(playerfield, botfield); 
     
-
-    gameLoop(playerfield, botfield, com);
+    while(true){
+        menu(playerfield, botfield, com); 
+        gameLoop(playerfield, botfield, com);
+    }
 }
+
 
 void gameLoop(Field &playerfield, Field &botfield, Computer &com) {
     // TODO include random funktioniert nicht
-    /*if (GetRandomNumberBetween(0, 1)) {
-        com.shoot(playerfield);
-    }*/
+    // if (GetRandomNumberBetween(0, 1)) {
+    //     com.shoot(playerfield);
+    // }
     while (true) {
         bool anothermove = true;
         while (anothermove) {
             playerfield.printField(true);
             botfield.printField(false);
             auto coord = coordinateInput();
+            if(coord.first == -1 && coord.second == -1){
+                return;
+            }
             botfield.shoot(coord.first, coord.second);
             if (botfield.isFinished()) {
                 playerfield.printField(true);
@@ -187,7 +191,9 @@ std::pair<int, int> coordinateInput(){
     while (true) {
         std::cout << "Bitte geben Sie Ihre Zielkoordinaten an." << std::endl;
         std::cin >> coordinates;
-
+        if(coordinates == "stop" || coordinates == "STOP"){
+            return std::pair<int, int>(-1, -1);
+        }
         if(coordinates.length() != 2){
             std::cout << "Bitte geben Sie gueltige Koordinaten bestehend aus x und y an. " << std::endl;
             continue;
@@ -211,9 +217,9 @@ std::pair<int, int> coordinateInput(){
         return std::pair<int, int>(x_value, y_value);
     }
 }
-void menu(Field &playerfield, Field &botfield){
+void menu(Field &playerfield, Field &botfield, Computer &com){
     Save safe;
-    int mode;
+    int mode = 0;
     bool mode_success = false;
     std::string filename;
     do{
@@ -224,31 +230,45 @@ void menu(Field &playerfield, Field &botfield){
         std::cout << "Programm beenden (4)" << std::endl;
         std::cout << "Sie koennen nach dem platzieren Ihrer Schiffe ueber die Eingabe \'stop\' ins Hauptmenue zurueck." << std::endl;
         std::cin >> mode;
-
-    switch(mode){
-        case 1:
-        mode_success = true;
-        getPlayerInput(playerfield);
-        break;
-        case 2:
-        mode_success = true;
-        std::cout << "Bitte geben Sie den Dateinamen ein:" <<  std::endl;
-        std::cin >> filename;
-        safe.loadGame(playerfield, botfield, filename);
-        break;
-        case 3:
-        mode_success = true;
-        std::cout << "Bitte geben Sie den gewuenschten Dateinamen ein:" <<  std::endl;
-        std::cin >> filename;
-        safe.saveGame(playerfield, botfield, filename);
-        break;
-        case 4:
-        exit(0);
-        break;
-        default:
-        mode_success = false;
-        break;
-    }
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        switch(mode){
+            case 1:
+                mode_success = true;
+                playerfield.clear();
+                botfield.clear();
+                com.placeShips(botfield);
+                playerfield.printField(true);
+                getPlayerInput(playerfield);
+                break;
+            case 2:
+                std::cout << "Bitte geben Sie den Dateinamen ein:" <<  std::endl;
+                std::cin >> filename;
+                mode_success = safe.loadGame(playerfield, botfield, filename);
+                break;
+            case 3:
+                if(playerfield.isClear()){
+                    mode_success = false;
+                    std::cout << "Sie koennen kein Feld speichern, ohne vorher Schiffe zu platzieren." << std::endl;
+                    break;
+                }
+                std::cout << "Bitte geben Sie den gewuenschten Dateinamen ein:" <<  std::endl;
+                std::cin >> filename;
+                mode_success = safe.saveGame(playerfield, botfield, filename);
+                if(mode_success){
+                    std::cout << "Die Datei wurde erfolgreich unter "<< filename << ".SVgame gespeichert."<<  std::endl;
+                    mode_success = false;
+                }else{
+                   std::cout << "Es ist ein Fehler beim Speichern aufgetreten. Bitte achten Sie auf einen gueltigen Dateinamen und versuchen Sie es erneut." <<  std::endl; 
+                }
+                break;
+            case 4:
+                exit(0);
+                break;
+            default:
+                mode_success = false;
+                break;
+        }
     }while(!mode_success);
     
 }

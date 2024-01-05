@@ -13,8 +13,10 @@ class Field {
     public:
     bool placeShip(int startx, int starty, int endx, int endy);
     void clear();
+    bool isClear();
     void shoot(int x, int y);
     void setShip(int x, int y);
+    void setShot(int x, int y);
     bool isShip(int x, int y);
     bool isShot(int x, int y);
     bool isCompletelySunken(int x, int y);

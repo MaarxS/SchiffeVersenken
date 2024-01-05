@@ -33,6 +33,16 @@ void Field::clear() {
         }
     }
 }
+bool Field::isClear(){
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            if(field[j][i].ship || field[j][i].hit){
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
 void Field::shoot(int x, int y) {
     field[x][y].hit = true;
@@ -42,6 +52,9 @@ void Field::shoot(int x, int y) {
 }
 void Field::setShip(int x, int y){
     field[x][y].ship = true;
+}
+void Field::setShot(int x, int y){
+    field[x][y].hit = true;
 }
 bool Field::isShip(int x, int y) {
     return field[x][y].ship;

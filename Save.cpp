@@ -6,13 +6,19 @@
 
 
 
-void Save::saveGame(Field &playerfield, Field &botfield, std::string filename){
+bool Save::saveGame(Field &playerfield, Field &botfield, std::string filename){
     filename += ".SVgame";
     std::ofstream myfile;
-    myfile.open (filename);
-    saveField(playerfield, filename, myfile);
-    saveField(botfield, filename, myfile);
-    myfile.close();
+    myfile.open(filename);
+    if(myfile.is_open()){
+        saveField(playerfield, filename, myfile);
+        saveField(botfield, filename, myfile);
+        myfile.close();
+        return true;
+    }
+    return false;
+    
+    
 }
 void Save::saveField(Field &field, std::string filename, std::ofstream &myfile){
     for (int i = 0; i < 10; i++) {
@@ -33,11 +39,9 @@ void Save::saveField(Field &field, std::string filename, std::ofstream &myfile){
     }
 
 }
-void Save::loadGame(Field &playerfield, Field &botfield, std::string filename){
-    Field new_playerfield;
-    playerfield = new_playerfield;
-    Field new_botfield;
-    botfield = new_botfield;
+bool Save::loadGame(Field &playerfield, Field &botfield, std::string filename){
+    playerfield.clear();
+    botfield.clear();
     filename += ".SVgame";
     std::ifstream myfile;
     
@@ -45,8 +49,14 @@ void Save::loadGame(Field &playerfield, Field &botfield, std::string filename){
     if(myfile.is_open()){
        loadField(playerfield, filename, myfile);
        loadField(botfield, filename, myfile);
-    }else std::cout << "Die Datei konnte nicht gefunden werden." << std::endl;
-    myfile.close();
+       myfile.close();
+       return true;
+    }else{
+        std::cout << "Die Datei konnte nicht gefunden werden." << std::endl;
+        return false;
+    } 
+
+    
 }
 void Save::loadField(Field &field, std::string filename, std::ifstream &myfile){
     int counter = 0;
@@ -55,7 +65,7 @@ void Save::loadField(Field &field, std::string filename, std::ifstream &myfile){
         for(int j = 0; j < line.length(); j++){
             switch(line[j]){
                 case '0': 
-                field.shoot(j, counter);
+                field.setShot(j, counter);
                 break;
                 case '1':
                 break;
@@ -64,7 +74,7 @@ void Save::loadField(Field &field, std::string filename, std::ifstream &myfile){
                 break;
                 case '3':
                 field.setShip(j, counter);
-                field.shoot(j, counter);
+                field.setShot(j, counter);
                 break;
             }
         }
