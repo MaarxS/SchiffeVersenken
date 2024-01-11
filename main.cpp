@@ -6,8 +6,8 @@
 #include <cmath>
 
 void getPlayerInput(Field &playerfield);
-bool checkPlayerInput(Field &playerfield, std::string start_coordinates, std::string end_coordinates, int expected_size);
-std::pair<int, int> coordinateInput();
+bool checkPlayerInput(Field &playerfield, std::pair<int, int> &start_coord, std::pair<int, int> &end_coord, int expected_size);
+std::pair<int, int> coordinateInput(bool stop_allowed);
 void menu(Field &playerfield, Field &botfield, Computer &com);
 void gameLoop(Field &playerfield, Field &botfield, Computer &com);
 
@@ -34,7 +34,8 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com) {
         while (anothermove) {
             playerfield.printField(true);
             botfield.printField(false);
-            auto coord = coordinateInput();
+            std::cout << "Bitte geben Sie Ihre Zielkoordinaten an." << std::endl;
+            auto coord = coordinateInput(true);
             if(coord.first == -1 && coord.second == -1){
                 return;
             }
@@ -61,15 +62,16 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com) {
 
 void getPlayerInput(Field &playerfield){
 
-    std::string coordinates_start;
-    std::string coordinates_end;
+    std::pair<int, int> coordinates_start;
+    std::pair<int, int> coordinates_end;
+
     bool number_correct = false;
 
     do{
         std::cout << "Bitte geben Sie die Startposition ihres Schlachtschiffes (5) an: " << std::endl;
-        std::cin >> coordinates_start;
+        coordinates_start = coordinateInput(false);
         std::cout << "Bitte geben Sie die Endposition ihres Schlachtschiffes (5) an: " << std::endl;
-        std::cin >> coordinates_end;
+        coordinates_end = coordinateInput(false);
 
         number_correct = checkPlayerInput(playerfield, coordinates_start, coordinates_end, 5);
     }while(!number_correct);
@@ -77,9 +79,9 @@ void getPlayerInput(Field &playerfield){
     for(int i = 0; i < 2; i++){
         do{
             std::cout << "Bitte geben Sie die Startposition ihres " << i + 1 << " .Kreuzers (4) an: " << std::endl;
-            std::cin >> coordinates_start;
+            coordinates_start = coordinateInput(false);
             std::cout << "Bitte geben Sie die Endposition ihres " << i + 1 << " .Kreuzers (4) an: " << std::endl;
-            std::cin >> coordinates_end;
+            coordinates_end = coordinateInput(false);
 
             number_correct = checkPlayerInput(playerfield, coordinates_start, coordinates_end, 4);
         }while(!number_correct);
@@ -88,9 +90,9 @@ void getPlayerInput(Field &playerfield){
     for(int i = 0; i < 3; i++){
         do{
             std::cout << "Bitte geben Sie die Startposition ihres " << i + 1 << " .Zerstörers (3) an: " << std::endl;
-            std::cin >> coordinates_start;
+            coordinates_start = coordinateInput(false);
             std::cout << "Bitte geben Sie die Endposition ihres " << i + 1 << " .Zerstörers (3) an: " << std::endl;
-            std::cin >> coordinates_end;
+            coordinates_end = coordinateInput(false);
 
             number_correct = checkPlayerInput(playerfield, coordinates_start, coordinates_end, 3);
         }while(!number_correct);
@@ -99,66 +101,26 @@ void getPlayerInput(Field &playerfield){
     for(int i = 0; i < 4; i++){
         do{
             std::cout << "Bitte geben Sie die Startposition ihres " << i + 1 << " .U-Boots (2) an: " << std::endl;
-            std::cin >> coordinates_start;
+            coordinates_start = coordinateInput(false);
             std::cout << "Bitte geben Sie die Endposition ihres " << i + 1 << " .U-Boots (2) an: " << std::endl;
-            std::cin >> coordinates_end;
+            coordinates_end = coordinateInput(false);
 
             number_correct = checkPlayerInput(playerfield, coordinates_start, coordinates_end, 2);
         }while(!number_correct);
     }
 }
 
-bool checkPlayerInput(Field &playerfield, std::string start_coordinates, std::string end_coordinates, int expected_size){
-    int x_value_start;
-    int y_value_start;
-    int x_value_end;
-    int y_value_end;
+bool checkPlayerInput(Field &playerfield, std::pair<int, int> &start_coord, std::pair<int, int> &end_coord, int expected_size) {
+    int x_value_start = start_coord.first;
+    int y_value_start = start_coord.second;
+    int x_value_end = end_coord.first;
+    int y_value_end = end_coord.second;
     int length_x;
     int length_y;
-
-    if(start_coordinates.length() != 2 || end_coordinates.length() != 2){
-          std::cout << "Bitte geben Sie gueltige Koordinaten bestehend aus x und y an. " << std::endl;
-          return false;
-    }
-    if(isdigit(start_coordinates[0])){
-        x_value_start = start_coordinates[0] - '0';
-        start_coordinates[1] = std::tolower(start_coordinates[1]);
-        y_value_start = start_coordinates[1]- 'a';
-    }else if(isdigit(start_coordinates[1])){
-        x_value_start = start_coordinates[1] - '0';
-        start_coordinates[0] = std::tolower(start_coordinates[0]);
-        y_value_start = start_coordinates[0] - 'a';
-    }else{
-         std::cout << "Bitte geben Sie gueltige Startkoordinaten an. " << std::endl;
-        return false;
-    }
-
-    if(isdigit(end_coordinates[0])){
-        x_value_end = end_coordinates[0] - '0';
-        end_coordinates[1] = std::tolower(end_coordinates[1]);
-        y_value_end = end_coordinates[1]- 'a';
-    }else if(isdigit(end_coordinates[1])){
-        x_value_end = end_coordinates[1] - '0';
-        end_coordinates[0] = std::tolower(end_coordinates[0]);
-        y_value_end = end_coordinates[0] - 'a';
-    }else{
-        std::cout << "Bitte geben Sie gueltige Endkoordinaten an. " << std::endl;
-        return false;
-    }
-    std::cout << x_value_start << std::endl;
-    std::cout << x_value_end << std::endl;
-    std::cout << y_value_start << std::endl;
-    std::cout << y_value_end << std::endl;
-    if(x_value_start > 9 || x_value_start < 0 || y_value_start < 0 || y_value_start > 9 || x_value_end > 9 || x_value_end < 0 || y_value_end < 0 || y_value_end > 9 ){
-         std::cout << "Bitte geben Sie Koordinaten im gueltigen Zahlenbereich an. " << std::endl;
-        return false;
-    }
 
     length_x = abs(x_value_start - x_value_end);
     length_y = abs(y_value_start - y_value_end);
 
-    std::cout << length_x << std::endl;
-    std::cout << length_y << std::endl;
     if(length_x != (expected_size - 1) && length_y != (expected_size - 1)){
         std::cout << "Bitte geben Sie ein Schiff der Laenge " << expected_size << " an. "<<std::endl;
         return false;
@@ -183,19 +145,20 @@ bool checkPlayerInput(Field &playerfield, std::string start_coordinates, std::st
     playerfield.printField(true);
     return true;
 }
-std::pair<int, int> coordinateInput(){
+
+std::pair<int, int> coordinateInput(bool stop_allowed){
     std::string coordinates;
     int x_value;
     int y_value;
+    std::string error_message = "Bitte geben Sie Koordinaten bestehend aus einem Buchstabe von A-J und einer Ziffer von 0-9 an.\n";
 
     while (true) {
-        std::cout << "Bitte geben Sie Ihre Zielkoordinaten an." << std::endl;
         std::cin >> coordinates;
-        if(coordinates == "stop" || coordinates == "STOP"){
+        if (coordinates == "stop" && stop_allowed) {
             return std::pair<int, int>(-1, -1);
         }
         if(coordinates.length() != 2){
-            std::cout << "Bitte geben Sie gueltige Koordinaten bestehend aus x und y an. " << std::endl;
+            std::cout << error_message;
             continue;
         }
         if(isdigit(coordinates[0])){
@@ -207,11 +170,11 @@ std::pair<int, int> coordinateInput(){
             coordinates[0] = std::tolower(coordinates[0]);
             y_value = coordinates[0] - 'a';
         }else{
-            std::cout << "Bitte geben Sie gueltige Zielkoordinaten an. " << std::endl;
+            std::cout << error_message;
             continue;
         }
         if(x_value > 9 || x_value < 0 || y_value > 9 || y_value < 0){
-            std::cout << "Bitte geben Sie Koordinaten im gueltigen Zahlenbereich an. " << std::endl;
+            std::cout << error_message;
             continue;
         }
         return std::pair<int, int>(x_value, y_value);
