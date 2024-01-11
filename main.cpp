@@ -1,7 +1,7 @@
 #include "Field.hpp"
 #include "Save.hpp"
 #include "Computer.hpp"
-// #include "CppRandom.hpp" //funktioniert nicht
+#include "CppRandom.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -26,10 +26,9 @@ int main() {
 
 void gameLoop(Field &playerfield, Field &botfield, Computer &com) {
     Random rand;
-    // TODO include random funktioniert nicht
-    // if (rand.GetRandomNumberBetween(0, 1)) {
-    //     com.shoot(playerfield);
-    // }
+    if (rand.GetRandomNumberBetween(0, 1)) {
+        com.shoot(playerfield);
+    }
     while (true) {
         bool anothermove = true;
         while (anothermove) {
