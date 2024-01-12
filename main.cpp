@@ -44,6 +44,11 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_ga
                 return;
             }
             botfield.shoot(coord.first, coord.second);
+            if(botfield.isShip(coord.first, coord.second)){
+                std::cout << "Sie haben getroffen! Sie sind nochmal dran. \n";
+            }else{
+                std::cout << "Sie haben nichts getroffen. \n";
+            }
             if (botfield.isFinished()) {
                 std::cout << std::endl;
                 std::cout << "Ihr Feld:" << std::endl;
@@ -153,7 +158,6 @@ bool checkPlayerInput(Field &playerfield, std::pair<int, int> &start_coord, std:
         std::cout << "Bitte achten Sie darauf, dass die Schiffe sich nicht schneiden, beruehren oder diagonal platziert werden. " << std::endl;
         return false;
     }
-
     playerfield.printField(true);
     return true;
 }
