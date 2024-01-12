@@ -43,6 +43,11 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_ga
             if(coord.first == -1 && coord.second == -1){
                 return;
             }
+            if(botfield.isShot(coord.first, coord.second)){
+                std::cout << "Dieses Feld hatten Sie bereits als Ziel. Bitte waehlen Sie ein freies Feld." << std::endl;
+                continue;
+
+            }
             botfield.shoot(coord.first, coord.second);
             if(botfield.isShip(coord.first, coord.second)){
                 std::cout << "Sie haben getroffen! Sie sind nochmal dran. \n";
