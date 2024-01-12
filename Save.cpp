@@ -42,6 +42,7 @@ void Save::saveField(Field &field, std::string filename, std::ofstream &myfile){
 bool Save::loadGame(Field &playerfield, Field &botfield, std::string filename){
     filename += ".SVgame";
     std::ifstream myfile;
+    bool game_over = false;
     
     myfile.open (filename);
     if(myfile.is_open()){
@@ -80,7 +81,6 @@ void Save::loadField(Field &field, std::string filename, std::ifstream &myfile){
         }
         counter++;
         if(counter == 10){
-            counter = 0;
             return;
         }
     }

@@ -205,7 +205,7 @@ bool menu(Field &playerfield, Field &botfield, Computer &com){
     do{
         std::cout << "Bitte waehlen Sie eine Option aus:" << std::endl;
         std::cout << "Neues Spiel starten (1)" << std::endl;
-        std::cout << "Altes Spiel vortsetzen (2)" << std::endl;
+        std::cout << "Altes Spiel fortsetzen (2)" << std::endl;
         std::cout << "aktuelles Spiel Speichern (3)" << std::endl;
         std::cout << "aktuelles Spiel fortsetzen (4)" << std::endl;
         std::cout << "Programm beenden (5)" << std::endl;
@@ -230,9 +230,9 @@ bool menu(Field &playerfield, Field &botfield, Computer &com){
                 loaded_game = true;
                 break;
             case 3:
-                if(playerfield.isClear()){
+                if(playerfield.isClear() || playerfield.isFinished() || botfield.isFinished()){
                     mode_success = false;
-                    std::cout << "Sie koennen kein Feld speichern, ohne vorher Schiffe zu platzieren." << std::endl;
+                    std::cout << "Bitte starten Sie zuerst ein neues Spiel." << std::endl;
                     break;
                 }
                 std::cout << "Bitte geben Sie den gewuenschten Dateinamen ein:" <<  std::endl;
@@ -246,7 +246,7 @@ bool menu(Field &playerfield, Field &botfield, Computer &com){
                 }
                 break;
             case 4:
-            if(playerfield.isClear()){
+            if(playerfield.isClear() || playerfield.isFinished() || botfield.isFinished()){
                     mode_success = false;
                     std::cout << "Um diese Funktion zu nutzen muessen Sie erst ein neues Spiel erstellen, oder ein altes Spiel laden." << std::endl;
                     break;
