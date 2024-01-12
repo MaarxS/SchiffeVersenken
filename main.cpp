@@ -8,25 +8,26 @@
 void getPlayerInput(Field &playerfield);
 bool checkPlayerInput(Field &playerfield, std::pair<int, int> &start_coord, std::pair<int, int> &end_coord, int expected_size);
 std::pair<int, int> coordinateInput(bool stop_allowed);
-void menu(Field &playerfield, Field &botfield, Computer &com);
-void gameLoop(Field &playerfield, Field &botfield, Computer &com);
+bool menu(Field &playerfield, Field &botfield, Computer &com);
+void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_game);
 
 int main() {
     
     Field playerfield;
     Field botfield;
     Computer com;
-    
+    bool loaded_game;
+
     while(true){
-        menu(playerfield, botfield, com); 
-        gameLoop(playerfield, botfield, com);
+        loaded_game = menu(playerfield, botfield, com); 
+        gameLoop(playerfield, botfield, com, loaded_game);
     }
 }
 
 
-void gameLoop(Field &playerfield, Field &botfield, Computer &com) {
+void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_game) {
     Random rand;
-    if (rand.GetRandomNumberBetween(0, 1)) {
+    if (rand.GetRandomNumberBetween(0, 1) && !loaded_game) {
         com.shoot(playerfield);
     }
     while (true) {
@@ -180,10 +181,11 @@ std::pair<int, int> coordinateInput(bool stop_allowed){
         return std::pair<int, int>(x_value, y_value);
     }
 }
-void menu(Field &playerfield, Field &botfield, Computer &com){
+bool menu(Field &playerfield, Field &botfield, Computer &com){
     Save safe;
     int mode = 0;
     bool mode_success = false;
+    bool loaded_game = false;
     std::string filename;
     do{
         std::cout << "Bitte waehlen Sie eine Option aus:" << std::endl;
@@ -197,6 +199,7 @@ void menu(Field &playerfield, Field &botfield, Computer &com){
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         switch(mode){
             case 1:
+                loaded_game = false;
                 mode_success = true;
                 playerfield.clear();
                 botfield.clear();
@@ -208,6 +211,7 @@ void menu(Field &playerfield, Field &botfield, Computer &com){
                 std::cout << "Bitte geben Sie den Dateinamen ein:" <<  std::endl;
                 std::cin >> filename;
                 mode_success = safe.loadGame(playerfield, botfield, filename);
+                loaded_game = true;
                 break;
             case 3:
                 if(playerfield.isClear()){
@@ -233,5 +237,6 @@ void menu(Field &playerfield, Field &botfield, Computer &com){
                 break;
         }
     }while(!mode_success);
+    return loaded_game;
     
 }
