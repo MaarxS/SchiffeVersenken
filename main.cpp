@@ -33,7 +33,11 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_ga
     while (true) {
         bool anothermove = true;
         while (anothermove) {
+            std::cout << std::endl;
+            std::cout << "Ihr Feld:" << std::endl;
             playerfield.printField(true);
+            std::cout << std::endl;
+            std::cout << "Gegnerisches Feld:" << std::endl;
             botfield.printField(false);
             std::cout << "Bitte geben Sie Ihre Zielkoordinaten an." << std::endl;
             auto coord = coordinateInput(true);
@@ -42,7 +46,11 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_ga
             }
             botfield.shoot(coord.first, coord.second);
             if (botfield.isFinished()) {
+                std::cout << std::endl;
+                std::cout << "Ihr Feld:" << std::endl;
                 playerfield.printField(true);
+                std::cout << std::endl;
+                std::cout << "Gegnerisches Feld:" << std::endl;
                 botfield.printField(false);
                 std::cout << "Du hast gewonnen!\n";
                 return;
@@ -51,7 +59,11 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_ga
         }
         com.shoot(playerfield);
         if (playerfield.isFinished()) {
+            std::cout << std::endl;
+            std::cout << "Ihr Feld:" << std::endl;
             playerfield.printField(true);
+            std::cout << std::endl;
+            std::cout << "Gegnerisches Feld:" << std::endl;
             botfield.printField(false);
             std::cout << "Du hast verloren.\n";
             return;
