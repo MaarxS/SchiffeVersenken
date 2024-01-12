@@ -40,17 +40,17 @@ void Save::saveField(Field &field, std::string filename, std::ofstream &myfile){
 
 }
 bool Save::loadGame(Field &playerfield, Field &botfield, std::string filename){
-    playerfield.clear();
-    botfield.clear();
     filename += ".SVgame";
     std::ifstream myfile;
     
     myfile.open (filename);
     if(myfile.is_open()){
-       loadField(playerfield, filename, myfile);
-       loadField(botfield, filename, myfile);
-       myfile.close();
-       return true;
+        playerfield.clear();
+        botfield.clear();
+        loadField(playerfield, filename, myfile);
+        loadField(botfield, filename, myfile);
+        myfile.close();
+        return true;
     }else{
         std::cout << "Die Datei konnte nicht gefunden werden." << std::endl;
         return false;

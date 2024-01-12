@@ -89,9 +89,9 @@ void getPlayerInput(Field &playerfield){
 
     for(int i = 0; i < 3; i++){
         do{
-            std::cout << "Bitte geben Sie die Startposition ihres " << i + 1 << " .Zerstörers (3) an: " << std::endl;
+            std::cout << "Bitte geben Sie die Startposition ihres " << i + 1 << " .Zerstoerers (3) an: " << std::endl;
             coordinates_start = coordinateInput(false);
-            std::cout << "Bitte geben Sie die Endposition ihres " << i + 1 << " .Zerstörers (3) an: " << std::endl;
+            std::cout << "Bitte geben Sie die Endposition ihres " << i + 1 << " .Zerstoerers (3) an: " << std::endl;
             coordinates_end = coordinateInput(false);
 
             number_correct = checkPlayerInput(playerfield, coordinates_start, coordinates_end, 3);
