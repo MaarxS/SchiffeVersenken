@@ -17,10 +17,6 @@ int main() {
     Field botfield;
     Computer com;
     bool loaded_game = false;
-    Random rand;
-    for(int i = 0; i < 25; i++){
-        std::cout << rand.GetRandomNumberBetween(0, 1) << std::endl;
-    }
     while(true){
         loaded_game = menu(playerfield, botfield, com); 
         gameLoop(playerfield, botfield, com, loaded_game);
