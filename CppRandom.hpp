@@ -10,7 +10,7 @@ class Random {
     std::mt19937 gen;
 
     public:
-    Random(): gen(rd()) {}
+    Random(): gen(time(nullptr)) {}
     int GetRandomNumberBetween(int lower, int upper);
 };
 
