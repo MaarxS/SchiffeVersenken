@@ -65,17 +65,17 @@ void Save::loadField(Field &field, std::string filename, std::ifstream &myfile){
         for(int j = 0; j < line.length(); j++){
             switch(line[j]){
                 case '0': 
-                field.setShot(j, counter);
-                break;
+                    field.setShot(j, counter);
+                    break;
                 case '1':
-                break;
+                    break;
                 case '2':
-                field.setShip(j, counter);
-                break;
+                    field.setShip(j, counter);
+                    break;
                 case '3':
-                field.setShip(j, counter);
-                field.setShot(j, counter);
-                break;
+                    field.setShip(j, counter);
+                    field.setShot(j, counter);
+                    break;
             }
         }
         counter++;

@@ -207,7 +207,8 @@ bool menu(Field &playerfield, Field &botfield, Computer &com){
         std::cout << "Neues Spiel starten (1)" << std::endl;
         std::cout << "Altes Spiel vortsetzen (2)" << std::endl;
         std::cout << "aktuelles Spiel Speichern (3)" << std::endl;
-        std::cout << "Programm beenden (4)" << std::endl;
+        std::cout << "aktuelles Spiel fortsetzen (4)" << std::endl;
+        std::cout << "Programm beenden (5)" << std::endl;
         std::cout << "Sie koennen nach dem platzieren Ihrer Schiffe ueber die Eingabe \'stop\' ins Hauptmenue zurueck." << std::endl;
         std::cin >> mode;
         std::cin.clear();
@@ -245,6 +246,15 @@ bool menu(Field &playerfield, Field &botfield, Computer &com){
                 }
                 break;
             case 4:
+            if(playerfield.isClear()){
+                    mode_success = false;
+                    std::cout << "Um diese Funktion zu nutzen muessen Sie erst ein neues Spiel erstellen, oder ein altes Spiel laden." << std::endl;
+                    break;
+                }
+                loaded_game = true;
+                mode_success = true;
+                break;
+            case 5:
                 exit(0);
                 break;
             default:
