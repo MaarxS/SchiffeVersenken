@@ -51,6 +51,9 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_ga
             botfield.shoot(coord.first, coord.second);
             if(botfield.isShip(coord.first, coord.second)){
                 std::cout << "Sie haben getroffen! Sie sind nochmal dran. \n";
+                if(botfield.isCompletelySunken(coord.first, coord.second)){
+                    std::cout << "Sie haben das gesamte Schiff versenkt. \n";
+                }
             }else{
                 std::cout << "Sie haben nichts getroffen. \n";
             }
