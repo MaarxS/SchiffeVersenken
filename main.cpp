@@ -147,7 +147,7 @@ bool checkPlayerInput(Field &playerfield, std::pair<int, int> &start_coord, std:
         std::cout << "Bitte geben Sie ein Schiff der Laenge " << expected_size << " an. "<<std::endl;
         return false;
     }
-    int swap;
+    int swap; //Sortierung der Koordiantenwerte nach Größe
     if(y_value_start > y_value_end){
         swap = y_value_start;
         y_value_start = y_value_end;
@@ -159,7 +159,7 @@ bool checkPlayerInput(Field &playerfield, std::pair<int, int> &start_coord, std:
         x_value_end = swap;
     }
     
-    if(!playerfield.placeShip(x_value_start, y_value_start, x_value_end, y_value_end)){
+    if(!playerfield.placeShip(x_value_start, y_value_start, x_value_end, y_value_end)){ //Überprüfung auf Fehler gegen die Spiellogik
         std::cout << "Bitte achten Sie darauf, dass die Schiffe sich nicht schneiden, beruehren oder diagonal platziert werden. " << std::endl;
         return false;
     }

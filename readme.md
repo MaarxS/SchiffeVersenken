@@ -1,7 +1,8 @@
-Anleitung Schiffe Versenken
+#Anleitung Schiffe Versenken
 
+Bei diesem Projekt handelt es sich um ein Hochschulprojekt, welches im Rahmen einer C++ Vorlesung benotet werden soll.
 
-Legende : 
+##Legende: 
 
 ■ (blau) : Meer, verdecktes Feld
 ■ (weiß) : Schiff (nur auf dem eigenen Feld zu sehen)
@@ -10,8 +11,8 @@ X (rot)  : Treffer, Schiff noch nicht versenkt
 X (grau) : Treffer, Schiff versenkt
 
 
-Dieses Programm lässt sich aufgrund einer Makefile mit "make" kompilieren und starten. 
-Sollte diese nicht installiert sein, lässt sich der Code manuell über 
+Dieses Programm lässt sich mit "make" kompilieren und starten. 
+Sollte make nicht installiert sein, lässt sich der Code manuell über 
 
 g++ -g -o SchiffeVersenken main.cpp Field.cpp Computer.cpp Save.cpp CppRandom.cpp
 
@@ -21,4 +22,4 @@ kompilieren und über
 
 starten.
 
-
+	`#RRGGBB` test hrgefwdqwsw
