@@ -1,8 +1,8 @@
-#Anleitung Schiffe Versenken
+# Anleitung Schiffe Versenken
 
 Bei diesem Projekt handelt es sich um ein Hochschulprojekt, welches im Rahmen einer C++ Vorlesung benotet werden soll.
 
-##Legende: 
+## Legende: 
 
 ■ (blau) : Meer, verdecktes Feld
 ■ (weiß) : Schiff (nur auf dem eigenen Feld zu sehen)
@@ -22,4 +22,3 @@ kompilieren und über
 
 starten.
 
-	`#RRGGBB` test hrgefwdqwsw
