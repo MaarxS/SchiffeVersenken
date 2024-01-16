@@ -63,9 +63,16 @@ std::pair<int, int> findDamagedShip(Field &field) {
 }
 
 bool Computer::shootRandomFreeCoordinate(Field &field) {
+    int even[5] = {0, 2, 4, 6, 8};
+    int odd[5] = {1, 3, 5, 7, 9};
     while (true) {
         int x = rand.GetRandomNumberBetween(0, 9);
-        int y = rand.GetRandomNumberBetween(0, 9);
+        int y = rand.GetRandomNumberBetween(0, 4);
+        if(x % 2){ //if odd
+            y = odd[y];
+        }else{ //even
+            y = even[y];
+        }
         if (!field.isShot(x, y)) {
             field.shoot(x, y);
             return field.isShip(x, y);
