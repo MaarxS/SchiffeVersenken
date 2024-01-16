@@ -27,7 +27,10 @@ int main() {
 void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_game) {
     Random rand;
     if (rand.GetRandomNumberBetween(0, 1) && !loaded_game) {
+        std::cout << "Der Bot beginnt. \n";
         com.shoot(playerfield);
+    }else{
+        std::cout << "Sie dürfen anfangen. \n";
     }
     while (true) {
         bool anothermove = true;

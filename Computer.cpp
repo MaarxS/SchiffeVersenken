@@ -142,7 +142,10 @@ void Computer::shoot(Field &enemyField) {
     if (coords.first == -1) {
         bool hit = shootRandomFreeCoordinate(enemyField);
         if (hit) {
+            std::cout << "Der Bot hat getroffen! Er ist nochmal am Zug. \n";
             shoot(enemyField);
+        }else{
+            std::cout << "Der Bot hat nichts getroffen. \n";
         }
     } else if (true) {
         continueFindingShip(enemyField, coords.first, coords.second);
