@@ -147,7 +147,7 @@ void Computer::shoot(Field &enemyField) {
         }else{
             std::cout << "Der Bot hat nichts getroffen. \n";
         }
-    } else if (true) {
+    } else if (true) {    //else?
         continueFindingShip(enemyField, coords.first, coords.second);
     }
 }
