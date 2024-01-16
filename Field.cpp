@@ -164,7 +164,6 @@ void Field::shootAroundShip(int x , int y) {
     while (yend < 9 && isShip(x, yend)) {
         yend++;
     }
-    std::cout << xstart << ystart << xend << yend << std::endl;
     for (int i = xstart; i <= xend; i++) {
         for (int j = ystart; j <= yend; j++) {
             field[i][j].hit = true;

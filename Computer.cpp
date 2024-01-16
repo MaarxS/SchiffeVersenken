@@ -111,12 +111,10 @@ bool continueShootingDirection(Field &field, int dir, int x, int y) {
 bool Computer::guessOrientation(Field field, int x, int y) {
     if (x > 0 && field.isShot(x - 1, y) && field.isShip(x - 1, y) 
     || x < 9 && field.isShot(x + 1, y) && field.isShip(x + 1, y)) {
-        std::cout << "horizontal\n";
         return 1;
     }
     if (y > 0 && field.isShot(x, y - 1) && field.isShip(x, y - 1) 
     || y < 9 && field.isShot(x, y + 1) && field.isShip(x, y + 1)) {
-        std::cout << "vertcial\n";
         return 0;
     }
     return rand.GetRandomNumberBetween(0, 1);

@@ -30,7 +30,7 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_ga
         std::cout << "Der Bot beginnt. \n";
         com.shoot(playerfield);
     }else{
-        std::cout << "Sie dürfen anfangen. \n";
+        std::cout << "Sie duerfen anfangen. \n";
     }
     while (true) {
         bool anothermove = true;
