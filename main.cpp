@@ -4,6 +4,7 @@
 #include "CppRandom.hpp"
 #include <iostream>
 #include <cmath>
+#include <memory>
 
 void getPlayerInput(Field &playerfield);
 bool checkPlayerInput(Field &playerfield, std::pair<int, int> &start_coord, std::pair<int, int> &end_coord, int expected_size);
@@ -13,26 +14,27 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_ga
 
 int main(){
     
-    Field playerfield;
-    Field botfield;
-    Computer com;
+    std::shared_ptr<Field> playerfield = std::make_shared<Field>();
+    std::shared_ptr<Field> botfield = std::make_shared<Field>();
+    std::shared_ptr<Random> rand = std::make_shared<Random>();
+    Computer com(rand, botfield, playerfield);
     bool loaded_game = false; 
-std::cout << "      |    |    |      v                     " << std::endl;
-std::cout << "     )_)  )_)  )_)                    v      " << std::endl;
-std::cout << "    )___))___))___)\\            ~.          " << std::endl;
-std::cout << "   )____)____)_____)\\      v    /|          " << std::endl;
-std::cout << " _____|____|____|____\\\\__      / |         " << std::endl;
-std::cout << "-\\                   /--------/__|__--------" << std::endl;
-std::cout << "^^^^^^^^^^^^^^^^^^^^^     ^ \\--------/  ^^  " << std::endl;
-std::cout << "     ^^   _    _^^^     ^^^  \"^^^^^^\"    ^" << std::endl;
-std::cout << "^      __|_|__|_|__^^   ^^^    ^^     ^^^^^  " << std::endl;
-std::cout << " ^^  _|____________|__      ^^^^   ^^^    ^  " << std::endl;
-std::cout << "    | o o o o o o o o /  ^^     ^^^^    ^^   " << std::endl;
-std::cout << "  ^^^^^^^^^^^^^^^^^^^^       ^^    ^^^   ^^  " << std::endl;
+    std::cout << "      |    |    |      v                     " << std::endl;
+    std::cout << "     )_)  )_)  )_)                    v      " << std::endl;
+    std::cout << "    )___))___))___)\\            ~.          " << std::endl;
+    std::cout << "   )____)____)_____)\\      v    /|          " << std::endl;
+    std::cout << " _____|____|____|____\\\\__      / |         " << std::endl;
+    std::cout << "-\\                   /--------/__|__--------" << std::endl;
+    std::cout << "^^^^^^^^^^^^^^^^^^^^^     ^ \\--------/  ^^  " << std::endl;
+    std::cout << "     ^^   _    _^^^     ^^^  \"^^^^^^\"    ^" << std::endl;
+    std::cout << "^      __|_|__|_|__^^   ^^^    ^^     ^^^^^  " << std::endl;
+    std::cout << " ^^  _|____________|__      ^^^^   ^^^    ^  " << std::endl;
+    std::cout << "    | o o o o o o o o /  ^^     ^^^^    ^^   " << std::endl;
+    std::cout << "  ^^^^^^^^^^^^^^^^^^^^       ^^    ^^^   ^^  " << std::endl;
 
     while(true){
-        loaded_game = menu(playerfield, botfield, com); 
-        gameLoop(playerfield, botfield, com, loaded_game);
+        loaded_game = menu(*playerfield, *botfield, com); 
+        gameLoop(*playerfield, *botfield, com, loaded_game);
     }
 }
 
@@ -41,7 +43,7 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_ga
     Random rand;
     if(rand.GetRandomNumberBetween(0, 1) && !loaded_game){
         std::cout << "Der Bot beginnt. \n";
-        com.shoot(playerfield);
+        com.shoot();
     }else{
         std::cout << "Sie duerfen anfangen. \n";
     }
@@ -85,7 +87,7 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_ga
             }
             anothermove = botfield.isShip(coord.first, coord.second);
         }
-        com.shoot(playerfield);
+        com.shoot();
         if(playerfield.isFinished()){
             std::cout << std::endl;
             std::cout << "Ihr Feld:" << std::endl;
@@ -243,7 +245,7 @@ bool menu(Field &playerfield, Field &botfield, Computer &com){
                 mode_success = true;
                 playerfield.clear();
                 botfield.clear();
-                com.placeShips(botfield);
+                com.placeShips();
                 playerfield.printField(true);
                 getPlayerInput(playerfield);
                 break;
