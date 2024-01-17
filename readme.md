@@ -1,7 +1,7 @@
 # Anleitung Schiffe Versenken
 
 Bei diesem Projekt handelt es sich um ein Hochschulprojekt, welches im Rahmen einer C++ Vorlesung benotet werden soll.
-Da es sich hier um ein Konsolenpogramm mit Farbausgabe handelt, wird empfohlen, eine Konsole zu verwenden die escape- character 
+Da es sich hier um ein Konsolenpogramm mit Farbausgabe handelt, wird empfohlen, eine Konsole zu verwenden, die escape- character 
 unterstützt.
 
 

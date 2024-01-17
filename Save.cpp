@@ -26,7 +26,7 @@ void Save::saveField(Field &field, std::string filename, std::ofstream &myfile){
             bool isShot = field.isShot(j, i);
             bool isShip = field.isShip(j, i);
             if (isShip && isShot) {
-                 myfile << '3';  //getroffen, Schiff nicht versenkt (3)
+                 myfile << '3';  //getroffen (3)
             } else if (isShot) {
                 myfile << '0'; //Schuss ins Meer (0)
             } else if (isShip) {

@@ -16,6 +16,7 @@ void Computer::placeShips(Field &field) {
             placeRandomShip(field, 2);
             placeRandomShip(field, 2);
             placeRandomShip(field, 2);
+
             success = true;
         } catch (std::logic_error &e) {
             field.clear();
@@ -130,6 +131,7 @@ void Computer::continueFindingShip(Field &field, int x, int y) {
         }
         if (field.isCompletelySunken(x, y)) {
             if(!field.isFinished()){ //dont shoot again if last ship is sunken
+                std::cout << "test";
                 shoot(field);
             }
             return;
