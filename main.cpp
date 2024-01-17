@@ -11,7 +11,7 @@ std::pair<int, int> coordinateInput(bool stop_allowed);
 bool menu(Field &playerfield, Field &botfield, Computer &com);
 void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_game);
 
-int main() {
+int main(){
     
     Field playerfield;
     Field botfield;
@@ -24,18 +24,17 @@ int main() {
 }
 
 
-void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_game) {
+void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_game){
     Random rand;
-    if (rand.GetRandomNumberBetween(0, 1) && !loaded_game) {
+    if(rand.GetRandomNumberBetween(0, 1) && !loaded_game){
         std::cout << "Der Bot beginnt. \n";
         com.shoot(playerfield);
     }else{
         std::cout << "Sie duerfen anfangen. \n";
     }
-    while (true) {
+    while(true){
         bool anothermove = true;
-        while (anothermove) 
-        {
+        while(anothermove){
             std::cout << std::endl;
             std::cout << "Ihr Feld:" << std::endl;
             playerfield.printField(true);
@@ -61,7 +60,7 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_ga
             }else{
                 std::cout << "Sie haben nichts getroffen. \n";
             }
-            if (botfield.isFinished()) {
+            if(botfield.isFinished()) {
                 std::cout << std::endl;
                 std::cout << "Ihr Feld:" << std::endl;
                 playerfield.printField(true);
@@ -74,7 +73,7 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_ga
             anothermove = botfield.isShip(coord.first, coord.second);
         }
         com.shoot(playerfield);
-        if (playerfield.isFinished()){
+        if(playerfield.isFinished()){
             std::cout << std::endl;
             std::cout << "Ihr Feld:" << std::endl;
             playerfield.printField(true);
@@ -180,9 +179,9 @@ std::pair<int, int> coordinateInput(bool stop_allowed){
     int y_value;
     std::string error_message = "Bitte geben Sie Koordinaten bestehend aus einem Buchstabe von A-J und einer Ziffer von 0-9 an.\n";
 
-    while (true) {
+    while(true){
         std::cin >> coordinates;
-        if (coordinates == "stop" && stop_allowed) {
+        if(coordinates == "stop" && stop_allowed) {
             return std::pair<int, int>(-1, -1);
         }
         if(coordinates.length() != 2){

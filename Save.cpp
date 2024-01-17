@@ -40,7 +40,9 @@ void Save::saveField(Field &field, std::string filename, std::ofstream &myfile){
 
 }
 bool Save::loadGame(Field &playerfield, Field &botfield, std::string filename){
-    filename += ".SVgame";
+    if(filename.size() < 7 || filename.substr(filename.size() - 7, filename.size()) != ".SVgame"){
+        filename += ".SVgame";
+    }
     std::ifstream myfile;
     bool game_over = false;
     
