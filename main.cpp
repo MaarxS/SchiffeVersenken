@@ -259,7 +259,7 @@ bool menu(Field &playerfield, Field &botfield, Computer &com){
             case 4:
             if(playerfield.isClear() || playerfield.isFinished() || botfield.isFinished()){
                     mode_success = false;
-                    std::cout << "Um diese Funktion zu nutzen muessen Sie erst ein neues Spiel erstellen, oder ein altes Spiel laden." << std::endl;
+                    std::cout << "Um diese Funktion zu nutzen muessen Sie erst ein neues Spiel starten, oder ein altes Spiel fortsetzen." << std::endl;
                     break;
                 }
                 loaded_game = true;

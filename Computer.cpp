@@ -76,6 +76,11 @@ bool Computer::shootRandomFreeCoordinate(Field &field) {
         }
         if (!field.isShot(x, y)) {
             field.shoot(x, y);
+            if(field.isShip(x, y)){
+                std::cout << "Der Bot hat getroffen! Er ist nochmal am Zug. \n";
+            }else{
+                std::cout << "Der Bot hat nichts getroffen. \n";
+            }
             return field.isShip(x, y);
         }
     }
@@ -104,7 +109,10 @@ bool continueShootingDirection(Field &field, int dir, int x, int y) {
     }
     field.shoot(x, y);
     if (field.isShip(x, y)) { // shot ship, continue shooting this direction
+        std::cout << "Der Bot hat getroffen! Er ist nochmal am Zug. \n";
         return continueShootingDirection(field, dir, x, y);
+    }else{
+        std::cout << "Der Bot hat nichts getroffen. \n";
     }
     return false; // no ship where the shot hit, move finished
 }
@@ -131,7 +139,7 @@ void Computer::continueFindingShip(Field &field, int x, int y) {
         }
         if (field.isCompletelySunken(x, y)) {
             if(!field.isFinished()){ //dont shoot again if last ship is sunken
-                std::cout << "test";
+                std::cout << "Der Bot hat ein Schiff versenkt. \n";
                 shoot(field);
             }
             return;
@@ -144,10 +152,7 @@ void Computer::shoot(Field &enemyField) {
     if (coords.first == -1) {
         bool hit = shootRandomFreeCoordinate(enemyField);
         if (hit) {
-            std::cout << "Der Bot hat getroffen! Er ist nochmal am Zug. \n";
             shoot(enemyField);
-        }else{
-            std::cout << "Der Bot hat nichts getroffen. \n";
         }
     } else if (true) {    //else?
         continueFindingShip(enemyField, coords.first, coords.second);
