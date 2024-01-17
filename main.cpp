@@ -16,7 +16,20 @@ int main(){
     Field playerfield;
     Field botfield;
     Computer com;
-    bool loaded_game = false;
+    bool loaded_game = false; 
+std::cout << "      |    |    |      v                     " << std::endl;
+std::cout << "     )_)  )_)  )_)                    v      " << std::endl;
+std::cout << "    )___))___))___)\\            ~.          " << std::endl;
+std::cout << "   )____)____)_____)\\      v    /|          " << std::endl;
+std::cout << " _____|____|____|____\\\\__      / |         " << std::endl;
+std::cout << "-\\                   /--------/__|__--------" << std::endl;
+std::cout << "^^^^^^^^^^^^^^^^^^^^^     ^ \\--------/  ^^  " << std::endl;
+std::cout << "     ^^   _    _^^^     ^^^  \"^^^^^^\"    ^" << std::endl;
+std::cout << "^      __|_|__|_|__^^   ^^^    ^^     ^^^^^  " << std::endl;
+std::cout << " ^^  _|____________|__      ^^^^   ^^^    ^  " << std::endl;
+std::cout << "    | o o o o o o o o /  ^^     ^^^^    ^^   " << std::endl;
+std::cout << "  ^^^^^^^^^^^^^^^^^^^^       ^^    ^^^   ^^  " << std::endl;
+
     while(true){
         loaded_game = menu(playerfield, botfield, com); 
         gameLoop(playerfield, botfield, com, loaded_game);
