@@ -34,7 +34,8 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_ga
     }
     while (true) {
         bool anothermove = true;
-        while (anothermove) {
+        while (anothermove) 
+        {
             std::cout << std::endl;
             std::cout << "Ihr Feld:" << std::endl;
             playerfield.printField(true);
@@ -73,7 +74,7 @@ void gameLoop(Field &playerfield, Field &botfield, Computer &com, bool loaded_ga
             anothermove = botfield.isShip(coord.first, coord.second);
         }
         com.shoot(playerfield);
-        if (playerfield.isFinished()) {
+        if (playerfield.isFinished()){
             std::cout << std::endl;
             std::cout << "Ihr Feld:" << std::endl;
             playerfield.printField(true);
