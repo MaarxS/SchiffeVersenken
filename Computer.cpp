@@ -129,7 +129,9 @@ void Computer::continueFindingShip(Field &field, int x, int y) {
             return;
         }
         if (field.isCompletelySunken(x, y)) {
-            shoot(field);
+            if(!field.isFinished()){ //dont shoot again if last ship is sunken
+                shoot(field);
+            }
             return;
         }
     }
