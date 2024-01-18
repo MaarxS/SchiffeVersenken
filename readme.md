@@ -22,7 +22,7 @@ X (grau) : Treffer, Schiff versenkt
 Dieses Programm lässt sich mit "make" kompilieren und starten. 
 Sollte make nicht installiert sein, lässt sich der Code manuell über 
 
-g++ -g -o SchiffeVersenken main.cpp Field.cpp Computer.cpp Save.cpp CppRandom.cpp
+g++ -g -o SchiffeVersenken Field.cpp Computer.cpp Save.cpp CppRandom.cpp Console.cpp Controller.cpp
 
 kompilieren und über
 
