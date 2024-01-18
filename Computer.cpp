@@ -3,29 +3,21 @@
 #include "CppRandom.hpp"
 
 void Computer::placeShips() {
-    bool success = false;
-    while (!success) {
-        try {
-            placeRandomShip(5);
-            placeRandomShip(4);
-            placeRandomShip(4);
-            placeRandomShip(3);
-            placeRandomShip(3);
-            placeRandomShip(3);
-            placeRandomShip(2);
-            placeRandomShip(2);
-            placeRandomShip(2);
-            placeRandomShip(2);
-
-            success = true;
-        } catch (std::logic_error &e) {
-            ownfield->clear();
+    for (int i = 1; i <= 4; i++) {
+        int size = 6 - i;
+        for (int j = 0; j < i; j++) {
+            placeRandomShip(size);
+            if(ownfield->isBlocked()){
+                ownfield->clear();
+                placeShips();
+                return;
+            }
         }
     }
 }
 
 void Computer::placeRandomShip(int length) {
-    for (int i = 0; i < 100000; i++) {
+    while(true) {  //needed?
         int max = 10 - length;
         int startx = 0;
         int starty;
@@ -47,7 +39,6 @@ void Computer::placeRandomShip(int length) {
             return;
         }
     }
-    throw std::logic_error("Generated impossible setup");
 }
 
 std::pair<int, int> Computer::findDamagedShip() {
