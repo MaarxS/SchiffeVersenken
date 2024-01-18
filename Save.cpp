@@ -10,15 +10,15 @@ bool Save::saveGame(std::shared_ptr<Field> playerField, std::shared_ptr<Field> b
     std::ofstream myFile;
     myFile.open(fileName);
     if(myFile.is_open()){
-        saveField(playerField, fileName, myFile);
-        saveField(botField, fileName, myFile);
+        saveField(playerField, myFile);
+        saveField(botField, myFile);
         myFile.close();
         return true;
     }
     return false;   
 }
 
-void Save::saveField(std::shared_ptr<Field> field, std::string fileName, std::ofstream &myFile){
+void Save::saveField(std::shared_ptr<Field> field, std::ofstream &myFile){
     for(int i = 0; i < 10; i++){
         for(int j = 0; j < 10; j++){
             bool isShot = field->isShot(j, i);
@@ -46,8 +46,8 @@ bool Save::loadGame(std::shared_ptr<Field> playerField, std::shared_ptr<Field> b
     if(myFile.is_open()){
         playerField->clear();
         botField->clear();
-        loadField(playerField, fileName, myFile);
-        loadField(botField, fileName, myFile);
+        loadField(playerField, myFile);
+        loadField(botField, myFile);
         myFile.close();
         return true;
     }else{
@@ -55,7 +55,7 @@ bool Save::loadGame(std::shared_ptr<Field> playerField, std::shared_ptr<Field> b
     }    
 }
 
-void Save::loadField(std::shared_ptr<Field> field, std::string fileName, std::ifstream &myFile){
+void Save::loadField(std::shared_ptr<Field> field, std::ifstream &myFile){
     int counter = 0;
     std::string line;
     while(getline(myFile,line)){
