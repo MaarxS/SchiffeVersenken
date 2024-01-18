@@ -14,7 +14,7 @@ class Controller {
     std::unique_ptr<Console> console;
     std::unique_ptr<Save> save;
 
-    bool menu(int mode);
+    bool menu(Console::Mode mode);
     void new_game();
     void player_place_all_ships();
     void player_place_ship(int size);

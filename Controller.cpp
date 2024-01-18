@@ -19,8 +19,8 @@ void Controller::start() {
     while (true) {
         bool is_midgame = !(playerfield->isClear() || playerfield->isFinished() || botfield->isFinished());
         int mode = console->menu_input(is_midgame);
-        bool in_menu = menu(mode);
-        if (!in_menu) {  //???
+        bool in_menu = menu((Console::Mode) mode);
+        if (!in_menu) {
             game_loop();
         }
     }
@@ -32,7 +32,7 @@ void Controller::start() {
  * Returns true if the menu should be displayed again and false if it should 
  * continue with the game loop.
 */
-bool Controller::menu(int mode) {
+bool Controller::menu(Console::Mode mode) {
     bool save_success;
     std::string filename;
     switch(mode){
