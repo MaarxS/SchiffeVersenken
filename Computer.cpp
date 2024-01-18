@@ -23,14 +23,14 @@ void Computer::placeRandomShip(int length) {
         int starty;
         int endx;
         int endy;
-        if (rand->GetRandomNumberBetween(0, 1)) {
-            startx = rand->GetRandomNumberBetween(0, max);
-            starty = rand->GetRandomNumberBetween(0, 9);
+        if (rand->getRandomNumberBetween(0, 1)) {
+            startx = rand->getRandomNumberBetween(0, max);
+            starty = rand->getRandomNumberBetween(0, 9);
             endx = startx + length - 1;
             endy = starty;
         } else {
-            startx = rand->GetRandomNumberBetween(0, 9);
-            starty = rand->GetRandomNumberBetween(0, max);
+            startx = rand->getRandomNumberBetween(0, 9);
+            starty = rand->getRandomNumberBetween(0, max);
             endx = startx;
             endy = starty + length - 1;
         }
@@ -58,8 +58,8 @@ bool Computer::shootRandomFreeCoordinate() {
     int even[5] = {0, 2, 4, 6, 8};
     int odd[5] = {1, 3, 5, 7, 9};
     while (true) {
-        int x = rand->GetRandomNumberBetween(0, 9);
-        int y = rand->GetRandomNumberBetween(0, 4);
+        int x = rand->getRandomNumberBetween(0, 9);
+        int y = rand->getRandomNumberBetween(0, 4);
         if(x % 2){ //if odd
             y = odd[y];
         }else{ //even
@@ -117,7 +117,7 @@ bool Computer::guessOrientation(int x, int y) {
     || y < 9 && enemyfield->isShot(x, y + 1) && enemyfield->isShip(x, y + 1)) {
         return 0;
     }
-    return rand->GetRandomNumberBetween(0, 1);
+    return rand->getRandomNumberBetween(0, 1);
 }
 
 void Computer::continueFindingShip(int x, int y) {

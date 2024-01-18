@@ -7,13 +7,13 @@
  * The result is STOP_PROGRAM, NEW_GAME, LOAD_GAME, SAVE_GAME or CONTINUE_GAME
  * The last two options are midgame options and only possible if with_midgame_options is true
 */
-Console::Mode Console::menu_input(bool with_midgame_options) {
-    print_menu(with_midgame_options);
+Console::Mode Console::menuInput(bool with_midgame_options) {
+    printMenu(with_midgame_options);
     int max = with_midgame_options ? 4 : 2;
-    return (Mode) number_input(0, max);
+    return (Mode) numberInput(0, max);
 }
 
-void Console::print_menu(bool with_midgame_options) {
+void Console::printMenu(bool with_midgame_options) {
     std::cout << std::endl;
     std::cout << "Bitte waehlen Sie eine Option aus:" << std::endl;
     std::cout << "Programm beenden (0)" << std::endl;
@@ -27,12 +27,12 @@ void Console::print_menu(bool with_midgame_options) {
 }
 
 /** Asks the user for a number input which must be between min and max inclusive. */
-int Console::number_input(int min, int max) {
+int Console::numberInput(int min, int max) {
     std::string error_message = "Geben Sie eine Ziffer zwischen " + std::to_string(min) + " und " + std::to_string(max) + " ein.\n";
     while (true) {
         std::string input;
         std::cin >> input;
-        if (!is_digits(input)) {
+        if (!isDigit(input)) {
             std::cout << error_message;
             continue;
         }
@@ -45,7 +45,7 @@ int Console::number_input(int min, int max) {
     }
 }
 
-bool Console::is_digits(std::string &str) {
+bool Console::isDigit(std::string &str) {
     for (char c : str) {
         if (!std::isdigit(c)) {
             return false;
@@ -59,7 +59,7 @@ bool Console::is_digits(std::string &str) {
  * 
  * The boat returns always has the smaller coordinates first and the size is ensured.
 */
-ship_t Console::ship_input(int size, int count) {
+ship_t Console::shipInput(int size, int count) {
     std::string shipname;
     if (size == 5) {
         shipname = "Schlachtschiffes";

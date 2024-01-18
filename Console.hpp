@@ -13,15 +13,15 @@ typedef struct Ship {
 
 class Console {
 
-    void print_menu(bool with_midgame_option);
-    int number_input(int min, int max);
-    bool is_digits(std::string &str);
+    void printMenu(bool with_midgame_option);
+    int numberInput(int min, int max);
+    bool isDigit(std::string &str);
     
 
     public:
     enum Mode {STOP_PROGRAM, NEW_GAME, LOAD_GAME, SAVE_GAME, CONTINUE_GAME};
-    Mode menu_input(bool with_midgame_option);
-    ship_t ship_input(int size, int count);
+    Mode menuInput(bool with_midgame_option);
+    ship_t shipInput(int size, int count);
     coordinates_t coordinateInput(bool stop_allowed);
     
 };

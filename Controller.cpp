@@ -17,10 +17,10 @@ Controller::Controller() {
 void Controller::start() {
     while (true) {
         bool is_midgame = !(playerfield->isClear() || playerfield->isFinished() || botfield->isFinished());
-        Console::Mode mode = console->menu_input(is_midgame);
+        Console::Mode mode = console->menuInput(is_midgame);
         bool in_menu = menu(mode);
         if (!in_menu) {
-            game_loop();
+            gameLoop();
         }
     }
 }
@@ -38,7 +38,7 @@ bool Controller::menu(Console::Mode mode) {
         case Console::STOP_PROGRAM:
             exit(0);
         case Console::NEW_GAME:
-            new_game();
+            newGame();
             return false;
         case Console::LOAD_GAME:
             std::cout << "Bitte geben Sie den Dateinamen ein:" <<  std::endl;
@@ -68,35 +68,35 @@ bool Controller::menu(Console::Mode mode) {
     return true;
 }
 
-void Controller::new_game() {
+void Controller::newGame() {
     playerfield->clear();
     botfield->clear();
     computer->placeShips();
-    player_place_all_ships();
-    start_first_move();
+    playerPlaceAllShips();
+    startFirstMove();
 }
 
-void Controller::player_place_all_ships() {
+void Controller::playerPlaceAllShips() {
     char reset;
     for (int i = 1; i <= 4; i++) {
         int size = 6 - i;
         for (int j = 0; j < i; j++) {
             playerfield->printField(true);
-            player_place_ship(size, j + 1);
+            playerPlaceShip(size, j + 1);
             if(size == 2 && playerfield->isBlocked()){    //Überprüfe bei allen U-Booten(2) ob der Benutzer sich selbst blockiert hat und nicht mehr weiter kommt
                 std::cout << "Sie haben das restliche Spielfeld blockiert. Das Platzieren wird neu gestartet." << std::endl;
                 playerfield->clear();
-                player_place_all_ships();
+                playerPlaceAllShips();
                 return;
             }
         }
     }
 }
 
-void Controller::player_place_ship(int size, int count) {
+void Controller::playerPlaceShip(int size, int count) {
     bool input_correct;
     do {
-        auto ship = console->ship_input(size, count);
+        auto ship = console->shipInput(size, count);
         input_correct = playerfield->placeShip(ship.start.x, ship.start.y, ship.end.x, ship.end.y); // Überprüfung auf Fehler gegen die Spiellogik // TODO replace with struct
         if (!input_correct) {
             std::cout << "Bitte achten Sie darauf, dass die Schiffe sich nicht schneiden, beruehren oder diagonal platziert werden. " << std::endl;
@@ -105,8 +105,8 @@ void Controller::player_place_ship(int size, int count) {
 }
 
 /** For the first move it needs to be evaluated who starts. */
-void Controller::start_first_move() {
-    if(random->GetRandomNumberBetween(0, 1)){
+void Controller::startFirstMove() {
+    if(random->getRandomNumberBetween(0, 1)){
         std::cout << "Der Bot beginnt. \n";
         computer->shoot();
     }else{
@@ -114,7 +114,7 @@ void Controller::start_first_move() {
     }
 }
 
-void Controller::game_loop() {
+void Controller::gameLoop() {
     while(true){
         bool anothermove = true;
         while(anothermove){

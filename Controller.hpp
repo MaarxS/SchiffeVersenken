@@ -15,11 +15,11 @@ class Controller {
     std::unique_ptr<Save> save;
 
     bool menu(Console::Mode mode);
-    void new_game();
-    void player_place_all_ships();
-    void player_place_ship(int size, int count);
-    void start_first_move();
-    void game_loop();
+    void newGame();
+    void playerPlaceAllShips();
+    void playerPlaceShip(int size, int count);
+    void startFirstMove();
+    void gameLoop();
 
     public:
     Controller();
