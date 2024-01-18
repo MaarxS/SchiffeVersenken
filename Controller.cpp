@@ -15,7 +15,6 @@ Controller::Controller() {
 }
 
 void Controller::start() {
-    console->print_image();
     while (true) {
         bool is_midgame = !(playerfield->isClear() || playerfield->isFinished() || botfield->isFinished());
         Console::Mode mode = console->menu_input(is_midgame);
@@ -44,12 +43,12 @@ bool Controller::menu(Console::Mode mode) {
         case Console::LOAD_GAME:
             std::cout << "Bitte geben Sie den Dateinamen ein:" <<  std::endl;
             std::cin >> filename;
-            save_success = save->loadGame(*playerfield, *botfield, filename);
+            save_success = save->loadGame(playerfield, botfield, filename);
             return !save_success;
         case Console::SAVE_GAME:
             std::cout << "Bitte geben Sie den gewuenschten Dateinamen ein:" <<  std::endl;
             std::cin >> filename;
-            save->saveGame(*playerfield, *botfield, filename);
+            save->saveGame(playerfield, botfield, filename);
             if(save_success){
                 std::cout << "Die Datei wurde erfolgreich unter "<< filename << ".SVgame gespeichert."<<  std::endl;
             }else{
@@ -78,7 +77,7 @@ void Controller::player_place_all_ships() {
         int size = 6 - i;
         for (int j = 0; j < i; j++) {
             playerfield->printField(true);
-            player_place_ship(size);
+            player_place_ship(size, j + 1);
             if(size == 2 && playerfield->isBlocked()){    //Überprüfe bei allen U-Booten(2) ob der Benutzer sich selbst blockiert hat und nicht mehr weiter kommt
                 std::cout << "Sie haben das restliche Spielfeld blockiert. Das Platzieren wird neu gestartet." << std::endl;
                 playerfield->clear();
@@ -89,10 +88,10 @@ void Controller::player_place_all_ships() {
     }
 }
 
-void Controller::player_place_ship(int size) {
+void Controller::player_place_ship(int size, int count) {
     bool input_correct;
     do {
-        auto ship = console->ship_input(size);
+        auto ship = console->ship_input(size, count);
         input_correct = playerfield->placeShip(ship.start.x, ship.start.y, ship.end.x, ship.end.y); // Überprüfung auf Fehler gegen die Spiellogik // TODO replace with struct
         if (!input_correct) {
             std::cout << "Bitte achten Sie darauf, dass die Schiffe sich nicht schneiden, beruehren oder diagonal platziert werden. " << std::endl;

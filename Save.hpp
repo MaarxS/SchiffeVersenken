@@ -2,11 +2,12 @@
 #include "Field.hpp"
 #include <string>
 
+
 class Save{
 
     public:
-    void saveField(Field &field, std::string filename, std::ofstream &myfile);
-    bool saveGame(Field &playerfield, Field &botfield, std::string filename);
-    bool loadGame(Field &playerfield, Field &botfield, std::string filename);
-    void loadField(Field &field, std::string filename, std::ifstream &myfile);
+    void saveField(std::shared_ptr<Field> field, std::string filename, std::ofstream &myfile);
+    bool saveGame(std::shared_ptr<Field> playerfield, std::shared_ptr<Field> botfield, std::string filename);
+    bool loadGame(std::shared_ptr<Field> playerfield, std::shared_ptr<Field> botfield, std::string filename);
+    void loadField(std::shared_ptr<Field> field, std::string filename, std::ifstream &myfile);
 };

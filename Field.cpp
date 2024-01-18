@@ -173,8 +173,6 @@ void Field::shootAroundShip(int x , int y) {
 
 bool Field::isBlocked(){ //true if no 2*2 ship fits anywhere
     bool square_blocked[8] = {false, false, false, false, false, false, false, false};
-
-
     for(int i = 0; i < 8; i++){         //move this 3*4 square 8 times to the right and 7 times downwards, to cover the whole field
         for(int j = 0; j < 7; j++){
             for(int k = 0; k < 3; k++){         //check 3*4 fieldsize for ships (ships with no connection to the border)
@@ -190,7 +188,6 @@ bool Field::isBlocked(){ //true if no 2*2 ship fits anywhere
             square_blocked[1] = false;
         }
      }
-     
      //edges 4*2
     for(int i = 0; i < 7; i++){
         for(int j = 0; j < 2; j++){
@@ -206,8 +203,7 @@ bool Field::isBlocked(){ //true if no 2*2 ship fits anywhere
                 return false;
             } 
             square_blocked[i] = false;
-        }
-           
+        }   
     }
     //edges 3*3
     for(int i = 0; i < 8; i++){
@@ -226,7 +222,6 @@ bool Field::isBlocked(){ //true if no 2*2 ship fits anywhere
             square_blocked[i] = false;
         }
     }
-    
     //corners
     for(int i = 0; i < 3; i++){  //3*2 block
         for(int j = 0; j < 2; j++){

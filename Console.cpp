@@ -1,22 +1,6 @@
 #include "Console.hpp"
 #include <iostream>
 
-/** Print a small ASCII image. */
-void Console::print_image() {
-    std::cout << "      |    |    |      v                     " << std::endl;
-    std::cout << "     )_)  )_)  )_)                    v      " << std::endl;
-    std::cout << "    )___))___))___)\\            ~.          " << std::endl;
-    std::cout << "   )____)____)_____)\\      v    /|          " << std::endl;
-    std::cout << " _____|____|____|____\\\\__      / |         " << std::endl;
-    std::cout << "-\\                   /--------/__|__--------" << std::endl;
-    std::cout << "^^^^^^^^^^^^^^^^^^^^^     ^ \\--------/  ^^  " << std::endl;
-    std::cout << "     ^^   _    _^^^     ^^^  \"^^^^^^\"    ^" << std::endl;
-    std::cout << "^      __|_|__|_|__^^   ^^^    ^^     ^^^^^  " << std::endl;
-    std::cout << " ^^  _|____________|__      ^^^^   ^^^    ^  " << std::endl;
-    std::cout << "    | o o o o o o o o /  ^^     ^^^^    ^^   " << std::endl;
-    std::cout << "  ^^^^^^^^^^^^^^^^^^^^       ^^    ^^^   ^^  " << std::endl;
-}
-
 /**
  * Prints the menu and asks the user for a choice.
  * 
@@ -75,7 +59,7 @@ bool Console::is_digits(std::string &str) {
  * 
  * The boat returns always has the smaller coordinates first and the size is ensured.
 */
-ship_t Console::ship_input(int size) {
+ship_t Console::ship_input(int size, int count) {
     std::string shipname;
     if (size == 5) {
         shipname = "Schlachtschiffes";
@@ -89,9 +73,9 @@ ship_t Console::ship_input(int size) {
     coordinates_t start;
     coordinates_t end;
     while (true) {
-        std::cout << "Bitte geben Sie die Startposition ihres " << shipname << " (" << size << ") an: " << std::endl;
+        std::cout << "Bitte geben Sie die Startposition ihres "<< count << ". " << shipname << " (" << size << ") an: " << std::endl;
         start = coordinateInput(false);
-        std::cout << "Bitte geben Sie die Endposition ihres " << shipname << " (" << size << ") an: " << std::endl;
+        std::cout << "Bitte geben Sie die Endposition ihres " << count << ". " << shipname << " (" << size << ") an: " << std::endl;
         end = coordinateInput(false);
 
         int swap;               // Sortierung der Koordinatenwerte nach Größe

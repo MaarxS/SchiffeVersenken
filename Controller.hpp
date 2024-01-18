@@ -17,7 +17,7 @@ class Controller {
     bool menu(Console::Mode mode);
     void new_game();
     void player_place_all_ships();
-    void player_place_ship(int size);
+    void player_place_ship(int size, int count);
     void start_first_move();
     void game_loop();
 
