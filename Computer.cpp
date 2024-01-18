@@ -7,8 +7,8 @@ void Computer::placeShips() {
         int size = 6 - i;
         for (int j = 0; j < i; j++) {
             placeRandomShip(size);
-            if(ownfield->isBlocked()){
-                ownfield->clear();
+            if(ownField->isBlocked()){
+                ownField->clear();
                 placeShips();
                 return;
             }
@@ -34,7 +34,7 @@ void Computer::placeRandomShip(int length) {
             endx = startx;
             endy = starty + length - 1;
         }
-        int success = ownfield->placeShip(startx, starty, endx, endy);
+        int success = ownField->placeShip(startx, starty, endx, endy);
         if (success) {
             return;
         }
@@ -44,8 +44,8 @@ void Computer::placeRandomShip(int length) {
 std::pair<int, int> Computer::findDamagedShip() {
     for (int y = 0; y < 10; y++) {
         for (int x = 0; x < 10; x++) {
-            if (enemyfield->isShot(x, y) && enemyfield->isShip(x, y)) {
-                if (!enemyfield->isCompletelySunken(x, y)) {
+            if (enemyField->isShot(x, y) && enemyField->isShip(x, y)) {
+                if (!enemyField->isCompletelySunken(x, y)) {
                     return std::pair<int, int>(x, y);
                 }
             }
@@ -65,14 +65,14 @@ bool Computer::shootRandomFreeCoordinate() {
         }else{ //even
             y = even[y];
         }
-        if (!enemyfield->isShot(x, y)) {
-            enemyfield->shoot(x, y);
-            if(enemyfield->isShip(x, y)){
+        if (!enemyField->isShot(x, y)) {
+            enemyField->shoot(x, y);
+            if(enemyField->isShip(x, y)){
                 std::cout << "Der Bot hat getroffen! Er ist nochmal am Zug. \n";
             }else{
                 std::cout << "Der Bot hat nichts getroffen. \n";
             }
-            return enemyfield->isShip(x, y);
+            return enemyField->isShip(x, y);
         }
     }
 }
@@ -95,11 +95,11 @@ bool Computer::continueShootingDirection(int dir, int x, int y) {
         if (y <= 0) return true; // upper border reached
         y--;
     }
-    if (enemyfield->isShot(x, y) && !enemyfield->isShip(x, y)) { // end of ship which was previously found
+    if (enemyField->isShot(x, y) && !enemyField->isShip(x, y)) { // end of ship which was previously found
         return true;
     }
-    enemyfield->shoot(x, y);
-    if (enemyfield->isShip(x, y)) { // shot ship, continue shooting this direction
+    enemyField->shoot(x, y);
+    if (enemyField->isShip(x, y)) { // shot ship, continue shooting this direction
         std::cout << "Der Bot hat getroffen! Er ist nochmal am Zug. \n";
         return continueShootingDirection(dir, x, y);
     }else{
@@ -109,12 +109,12 @@ bool Computer::continueShootingDirection(int dir, int x, int y) {
 }
 
 bool Computer::guessOrientation(int x, int y) {
-    if (x > 0 && enemyfield->isShot(x - 1, y) && enemyfield->isShip(x - 1, y) 
-    || x < 9 && enemyfield->isShot(x + 1, y) && enemyfield->isShip(x + 1, y)) {
+    if (x > 0 && enemyField->isShot(x - 1, y) && enemyField->isShip(x - 1, y) 
+    || x < 9 && enemyField->isShot(x + 1, y) && enemyField->isShip(x + 1, y)) {
         return 1;
     }
-    if (y > 0 && enemyfield->isShot(x, y - 1) && enemyfield->isShip(x, y - 1) 
-    || y < 9 && enemyfield->isShot(x, y + 1) && enemyfield->isShip(x, y + 1)) {
+    if (y > 0 && enemyField->isShot(x, y - 1) && enemyField->isShip(x, y - 1) 
+    || y < 9 && enemyField->isShot(x, y + 1) && enemyField->isShip(x, y + 1)) {
         return 0;
     }
     return rand->getRandomNumberBetween(0, 1);
@@ -128,8 +128,8 @@ void Computer::continueFindingShip(int x, int y) {
         if (moveFinished) {
             return;
         }
-        if (enemyfield->isCompletelySunken(x, y)) {
-            if(!enemyfield->isFinished()){ //dont shoot again if last ship is sunken
+        if (enemyField->isCompletelySunken(x, y)) {
+            if(!enemyField->isFinished()){ //dont shoot again if last ship is sunken
                 std::cout << "Der Bot hat ein Schiff versenkt. \n";
                 shoot();
             }

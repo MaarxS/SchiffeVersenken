@@ -5,8 +5,8 @@
 
 class Computer {
     std::shared_ptr<Random> rand;
-    std::shared_ptr<Field> ownfield;
-    std::shared_ptr<Field> enemyfield;
+    std::shared_ptr<Field> ownField;
+    std::shared_ptr<Field> enemyField;
     void placeRandomShip(int length);
     bool continueShootingDirection(int dir, int x, int y);
     void continueFindingShip(int x, int y);
@@ -15,7 +15,7 @@ class Computer {
     bool guessOrientation(int x, int y);
 
     public:
-    Computer(std::shared_ptr<Random> rand, std::shared_ptr<Field> ownfield, std::shared_ptr<Field> enemyfield): rand(rand), ownfield(ownfield), enemyfield(enemyfield) {}
+    Computer(std::shared_ptr<Random> rand, std::shared_ptr<Field> ownField, std::shared_ptr<Field> enemyField): rand(rand), ownField(ownField), enemyField(enemyField) {}
     void placeShips();
     void shoot();
 };

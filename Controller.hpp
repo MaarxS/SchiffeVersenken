@@ -7,8 +7,8 @@
 #include <memory>
 
 class Controller {
-    std::shared_ptr<Field> playerfield;
-    std::shared_ptr<Field> botfield;   
+    std::shared_ptr<Field> playerField;
+    std::shared_ptr<Field> botField;   
     std::shared_ptr<Random> random;
     std::unique_ptr<Computer> computer;
     std::unique_ptr<Console> console;
