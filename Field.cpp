@@ -170,3 +170,84 @@ void Field::shootAroundShip(int x , int y) {
         }
     }
 }
+
+bool Field::isBlocked(){ //true if no 2*2 ship fits anywhere
+    bool square_blocked[8] = {false, false, false, false, false, false, false, false};
+
+
+    for(int i = 0; i < 8; i++){         //move this 3*4 square 8 times to the right and 7 times downwards, to cover the whole field
+        for(int j = 0; j < 7; j++){
+            for(int k = 0; k < 3; k++){         //check 3*4 fieldsize for ships (ships with no connection to the border)
+                for(int l = 0; l < 4; l++){
+                    if(isShip(i + k, j + l)) square_blocked[0] = true; //vertical
+                    if(isShip(j + l, i + k)) square_blocked[1] = true; // same thing, sideways 4*3 block, 7 right 8 down (horizontal)
+                }
+            }
+            if(!square_blocked[0] || !square_blocked[1]){
+                return false;
+            } 
+            square_blocked[0] = false;
+            square_blocked[1] = false;
+        }
+     }
+     
+     //edges 4*2
+    for(int i = 0; i < 7; i++){
+        for(int j = 0; j < 2; j++){
+            for(int k = 0; k < 4; k++){ //2*4 block
+                if(isShip(0 + j, i + k)) square_blocked[0] = true; //left edge
+                if(isShip(9 - j, i + k)) square_blocked[1] = true; //right edge
+                if(isShip(i + k, 0 + j)) square_blocked[2] = true; //top edge
+                if(isShip(i + k, 8 + j)) square_blocked[3] = true; //bottom edge
+            }
+        }
+        for(int i = 0; i < 4; i++){
+             if(!square_blocked[i]){
+                return false;
+            } 
+            square_blocked[i] = false;
+        }
+           
+    }
+    //edges 3*3
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 3; j++){
+            for(int k = 0; k < 3; k++){ //3*3 block
+                if(isShip(0 + j, i + k)) square_blocked[0] = true; //left edge
+                if(isShip(9 - j, i + k)) square_blocked[1] = true; //right edge
+                if(isShip(i + j, 0 + k)) square_blocked[2] = true; //top edge
+                if(isShip(i + j, 9 - k)) square_blocked[3] = true; //bottom
+            }
+        }
+        for(int i = 0; i < 4; i++){
+            if(!square_blocked[i]){
+                return false;
+            } 
+            square_blocked[i] = false;
+        }
+    }
+    
+    //corners
+    for(int i = 0; i < 3; i++){  //3*2 block
+        for(int j = 0; j < 2; j++){
+            if(isShip(0 + i, 0 + j)) square_blocked[0] = true; //top left horizontal
+            if(isShip(0 + j, 0 + i)) square_blocked[1] = true; //top left vertical
+
+            if(isShip(9 - i, 9 - j)) square_blocked[2] = true; //bottom right horizontal
+            if(isShip(9 - j, 9 - i)) square_blocked[3] = true; //bottom right vertical
+
+            if(isShip(0 + i, 9 - j)) square_blocked[4] = true; //bottom left horizontal
+            if(isShip(0 + j, 9 - i)) square_blocked[5] = true; //bottom left vertical
+
+            if(isShip(9 - i, 0 + j)) square_blocked[6] = true; //top right horizontal
+            if(isShip(9 - j, 0 + i)) square_blocked[7] = true; //top right vertical
+        }
+    }
+    for(int i = 0; i < 8; i++){
+        if(!square_blocked[i]){
+            return false;
+        } 
+        square_blocked[i] = false;
+    }
+    return true;
+}

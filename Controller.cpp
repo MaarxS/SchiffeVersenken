@@ -20,7 +20,7 @@ void Controller::start() {
         bool is_midgame = !(playerfield->isClear() || playerfield->isFinished() || botfield->isFinished());
         int mode = console->menu_input(is_midgame);
         bool in_menu = menu(mode);
-        if (!in_menu) {
+        if (!in_menu) {  //???
             game_loop();
         }
     }
@@ -73,11 +73,18 @@ void Controller::new_game() {
 }
 
 void Controller::player_place_all_ships() {
+    char reset;
     for (int i = 1; i <= 4; i++) {
         int size = 6 - i;
         for (int j = 0; j < i; j++) {
             playerfield->printField(true);
             player_place_ship(size);
+            if(size == 2 && playerfield->isBlocked()){    //Überprüfe bei allen U-Booten(2) ob der Benutzer sich selbst blockiert hat und nicht mehr weiter kommt
+                std::cout << "Sie haben das restliche Spielfeld blockiert. Um erneut zu starten druecken Sie eine beliebige Taste." << std::endl;
+                playerfield->clear();
+                player_place_all_ships();
+                return;
+            }
         }
     }
 }
