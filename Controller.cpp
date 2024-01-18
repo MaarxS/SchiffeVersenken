@@ -44,11 +44,16 @@ bool Controller::menu(Console::Mode mode) {
             std::cout << "Bitte geben Sie den Dateinamen ein:" <<  std::endl;
             std::cin >> filename;
             save_success = save->loadGame(playerfield, botfield, filename);
+            if(save_success){
+                std::cout << "Die Datei wurde erfolgreich geladen." << std::endl;
+            }else{
+                std::cout << "Die Datei konnte nicht gefunden werden." << std::endl;
+            }
             return !save_success;
         case Console::SAVE_GAME:
             std::cout << "Bitte geben Sie den gewuenschten Dateinamen ein:" <<  std::endl;
             std::cin >> filename;
-            save->saveGame(playerfield, botfield, filename);
+            save_success = save->saveGame(playerfield, botfield, filename);
             if(save_success){
                 std::cout << "Die Datei wurde erfolgreich unter "<< filename << ".SVgame gespeichert."<<  std::endl;
             }else{

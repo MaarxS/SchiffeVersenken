@@ -1,6 +1,7 @@
 #pragma once
 #include "Field.hpp"
 #include <string>
+#include <memory>
 
 
 class Save{

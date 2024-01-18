@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include <memory>
+
 
 bool Save::saveGame(std::shared_ptr<Field> playerfield, std::shared_ptr<Field> botfield, std::string filename){
     filename += ".SVgame";
@@ -52,7 +52,6 @@ bool Save::loadGame(std::shared_ptr<Field> playerfield, std::shared_ptr<Field> b
         myfile.close();
         return true;
     }else{
-        std::cout << "Die Datei konnte nicht gefunden werden." << std::endl;
         return false;
     }    
 }
