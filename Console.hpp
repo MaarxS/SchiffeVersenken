@@ -19,9 +19,10 @@ class Console {
     
 
     public:
+    enum Mode {STOP_PROGRAM, NEW_GAME, LOAD_GAME, SAVE_GAME, CONTINUE_GAME};
     void print_image();
-    int menu_input(bool with_midgame_option);
+    Mode menu_input(bool with_midgame_option);
     ship_t ship_input(int size);
     coordinates_t coordinateInput(bool stop_allowed);
-    enum Mode {STOP_PROGRAM, NEW_GAME, LOAD_GAME, SAVE_GAME, CONTINUE_GAME};
+    
 };

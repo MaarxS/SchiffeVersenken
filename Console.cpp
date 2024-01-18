@@ -23,10 +23,10 @@ void Console::print_image() {
  * The result is STOP_PROGRAM, NEW_GAME, LOAD_GAME, SAVE_GAME or CONTINUE_GAME
  * The last two options are midgame options and only possible if with_midgame_options is true
 */
-int Console::menu_input(bool with_midgame_options) {
+Console::Mode Console::menu_input(bool with_midgame_options) {
     print_menu(with_midgame_options);
     int max = with_midgame_options ? 4 : 2;
-    return number_input(0, max);
+    return (Mode) number_input(0, max);
 }
 
 void Console::print_menu(bool with_midgame_options) {
@@ -44,7 +44,7 @@ void Console::print_menu(bool with_midgame_options) {
 
 /** Asks the user for a number input which must be between min and max inclusive. */
 int Console::number_input(int min, int max) {
-    std::string error_message = "Geben Sie eine Ziffer zwischen " + std::to_string(min) + " und " + std::to_string(max) + " ein.";
+    std::string error_message = "Geben Sie eine Ziffer zwischen " + std::to_string(min) + " und " + std::to_string(max) + " ein.\n";
     while (true) {
         std::string input;
         std::cin >> input;
