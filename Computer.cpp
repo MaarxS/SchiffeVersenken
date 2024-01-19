@@ -59,7 +59,7 @@ bool Computer::shootRandomFreeCoordinate() {
     int odd[5] = {1, 3, 5, 7, 9};
     while (true) {
         int x = rand->getRandomNumberBetween(0, 9);
-        int y = rand->getRandomNumberBetween(0, 4);
+        int y = rand->getRandomNumberBetween(0, 4); //random element of array even/odd, sized 5
         if(x % 2){ //if odd
             y = odd[y];
         }else{ //even
