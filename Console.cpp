@@ -139,3 +139,15 @@ coordinates_t Console::coordinateInput(bool stopAllowed){
         return {xValue, yValue};
     }
 }
+bool Console::botDifficulty(){
+
+    std::cout << "Bitte geben Sie die Schwierigkeit des Bots ein: " <<  std::endl;
+    std::cout << "Leicht (1) " <<  std::endl;
+    std::cout << "Schwer (2) " <<  std::endl;
+   
+    int difficulty = numberInput(1, 2);
+    if(difficulty == 2){
+        return true;
+    }
+    return false;
+}

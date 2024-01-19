@@ -9,6 +9,6 @@ class Save{
     void loadField(std::shared_ptr<Field> field, std::ifstream &myfile);
 
     public:
-    bool saveGame(std::shared_ptr<Field> playerfield, std::shared_ptr<Field> botfield, std::string filename);
+    bool saveGame(std::shared_ptr<Field> playerfield, std::shared_ptr<Field> botfield, std::string filename, bool difficulty);
     bool loadGame(std::shared_ptr<Field> playerfield, std::shared_ptr<Field> botfield, std::string filename);
 };

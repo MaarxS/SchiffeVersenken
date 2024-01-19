@@ -5,13 +5,16 @@
 #include <iostream>
 
 
-bool Save::saveGame(std::shared_ptr<Field> playerField, std::shared_ptr<Field> botField, std::string fileName){
+bool Save::saveGame(std::shared_ptr<Field> playerField, std::shared_ptr<Field> botField, std::string fileName, bool difficulty){
     fileName += ".SVgame";
     std::ofstream myFile;
     myFile.open(fileName);
     if(myFile.is_open()){
         saveField(playerField, myFile);
         saveField(botField, myFile);
+        if(difficulty){
+
+        }else
         myFile.close();
         return true;
     }

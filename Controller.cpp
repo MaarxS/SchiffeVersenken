@@ -38,6 +38,8 @@ bool Controller::menu(Console::Mode mode) {
         case Console::STOP_PROGRAM:
             exit(0);
         case Console::NEW_GAME:
+            bool hardBot = console->botDifficulty();
+            computer->setHardDifficulty(hardBot);
             newGame();
             return false;
         case Console::LOAD_GAME:
@@ -53,7 +55,7 @@ bool Controller::menu(Console::Mode mode) {
         case Console::SAVE_GAME:
             std::cout << "Bitte geben Sie den gewuenschten Dateinamen ein:" <<  std::endl;
             std::cin >> fileName;
-            saveSuccess = save->saveGame(playerField, botField, fileName);
+            saveSuccess = save->saveGame(playerField, botField, fileName, computer->getHardDifficulty());
             if(saveSuccess){
                 std::cout << "Die Datei wurde erfolgreich unter "<< fileName << ".SVgame gespeichert."<<  std::endl;
             }else{
@@ -83,7 +85,7 @@ void Controller::playerPlaceAllShips() {
         for (int j = 0; j < i; j++) {
             playerField->printField(true);
             playerPlaceShip(size, j + 1);
-            if(size == 2 && playerField->isBlocked()){    //Überprüfe bei allen U-Booten(2) ob der Benutzer sich selbst blockiert hat und nicht mehr weiter kommt
+            if(size == 2 && playerField->isBlocked() && j != 3){    //Überprüfe bei allen U-Booten(2) ob der Benutzer sich selbst blockiert hat und nicht mehr weiter kommt
                 std::cout << "Sie haben das restliche Spielfeld blockiert. Das Platzieren wird neu gestartet." << std::endl;
                 playerField->clear();
                 playerPlaceAllShips();

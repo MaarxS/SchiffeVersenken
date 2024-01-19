@@ -23,5 +23,6 @@ class Console {
     Mode menuInput(bool withMidgameOption);
     ship_t shipInput(int size, int count);
     coordinates_t coordinateInput(bool stopAllowed);
+    bool botDifficulty();
     
 };

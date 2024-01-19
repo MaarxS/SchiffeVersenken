@@ -59,12 +59,18 @@ bool Computer::shootRandomFreeCoordinate() {
     int odd[5] = {1, 3, 5, 7, 9};
     while (true) {
         int x = rand->getRandomNumberBetween(0, 9);
-        int y = rand->getRandomNumberBetween(0, 4); //random element of array even/odd, sized 5
-        if(x % 2){ //if odd
-            y = odd[y];
-        }else{ //even
-            y = even[y];
+        int y;
+        if(hardDifficulty){
+            y = rand->getRandomNumberBetween(0, 4); //random element of array even/odd, sized 5
+            if(x % 2){ //if odd
+                y = odd[y];
+            }else{ //even
+                y = even[y];
+            }
+        }else{
+            y = rand->getRandomNumberBetween(0, 9);
         }
+
         if (!enemyField->isShot(x, y)) {
             enemyField->shoot(x, y);
             if(enemyField->isShip(x, y)){
@@ -148,4 +154,12 @@ void Computer::shoot() {
     } else {
         continueFindingShip(coords.first, coords.second);
     }
+}
+
+void Computer::setHardDifficulty(bool difficulty){
+    hardDifficulty = difficulty;
+}
+
+bool Computer::getHardDifficulty(){
+    return hardDifficulty;
 }
