@@ -98,11 +98,9 @@ bool Save::loadDifficulty(std::string fileName){
          while(getline(myFile,line)){
             for(int j = 0; j < line.length(); j++){
                 if(line[j] == '8'){
-                    std::cout << "8 \n";
                     myFile.close();
                     return false;
                 }else if(line[j] == '9'){
-                    std::cout << "9 \n";
                     myFile.close();
                     return true;
                 }

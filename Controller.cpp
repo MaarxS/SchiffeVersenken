@@ -48,7 +48,6 @@ bool Controller::menu(Console::Mode mode) {
             std::cin >> fileName;
             saveSuccess = save->loadGame(playerField, botField, fileName);
             if(saveSuccess){
-                std::cout << "test\n";
                 hardBot = save->loadDifficulty(fileName);
                 computer->setHardDifficulty(hardBot);
                 std::cout << "Die Datei wurde erfolgreich geladen." << std::endl;
