@@ -22,4 +22,5 @@ class Field {
     bool isCompletelySunken(int x, int y);
     bool isFinished();
     void printField(bool isOwnField);
+    bool isBlocked();
 };

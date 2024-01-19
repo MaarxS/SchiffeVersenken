@@ -11,7 +11,7 @@ class Random {
 
     public:
     Random(): gen(time(nullptr)) {}
-    int GetRandomNumberBetween(int lower, int upper);
+    int getRandomNumberBetween(int lower, int upper);
 };
 
 #endif

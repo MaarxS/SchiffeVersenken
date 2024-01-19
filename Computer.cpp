@@ -2,59 +2,50 @@
 #include "Field.hpp"
 #include "CppRandom.hpp"
 
-void Computer::placeShips(Field &field) {
-    bool success = false;
-    while (!success) {
-        try {
-            placeRandomShip(field, 5);
-            placeRandomShip(field, 4);
-            placeRandomShip(field, 4);
-            placeRandomShip(field, 3);
-            placeRandomShip(field, 3);
-            placeRandomShip(field, 3);
-            placeRandomShip(field, 2);
-            placeRandomShip(field, 2);
-            placeRandomShip(field, 2);
-            placeRandomShip(field, 2);
-
-            success = true;
-        } catch (std::logic_error &e) {
-            field.clear();
+void Computer::placeShips() {
+    for (int i = 1; i <= 4; i++) {
+        int size = 6 - i;
+        for (int j = 0; j < i; j++) {
+            placeRandomShip(size);
+            if(ownField->isBlocked()){
+                ownField->clear();
+                placeShips();
+                return;
+            }
         }
     }
 }
 
-void Computer::placeRandomShip(Field &field, int length) {
-    for (int i = 0; i < 100000; i++) {
+void Computer::placeRandomShip(int length) {
+    while(true) {  //needed?
         int max = 10 - length;
         int startx = 0;
         int starty;
         int endx;
         int endy;
-        if (rand.GetRandomNumberBetween(0, 1)) {
-            startx = rand.GetRandomNumberBetween(0, max);
-            starty = rand.GetRandomNumberBetween(0, 9);
+        if (rand->getRandomNumberBetween(0, 1)) {
+            startx = rand->getRandomNumberBetween(0, max);
+            starty = rand->getRandomNumberBetween(0, 9);
             endx = startx + length - 1;
             endy = starty;
         } else {
-            startx = rand.GetRandomNumberBetween(0, 9);
-            starty = rand.GetRandomNumberBetween(0, max);
+            startx = rand->getRandomNumberBetween(0, 9);
+            starty = rand->getRandomNumberBetween(0, max);
             endx = startx;
             endy = starty + length - 1;
         }
-        int success = field.placeShip(startx, starty, endx, endy);
+        int success = ownField->placeShip(startx, starty, endx, endy);
         if (success) {
             return;
         }
     }
-    throw std::logic_error("Generated impossible setup");
 }
 
-std::pair<int, int> findDamagedShip(Field &field) {
+std::pair<int, int> Computer::findDamagedShip() {
     for (int y = 0; y < 10; y++) {
         for (int x = 0; x < 10; x++) {
-            if (field.isShot(x, y) && field.isShip(x, y)) {
-                if (!field.isCompletelySunken(x, y)) {
+            if (enemyField->isShot(x, y) && enemyField->isShip(x, y)) {
+                if (!enemyField->isCompletelySunken(x, y)) {
                     return std::pair<int, int>(x, y);
                 }
             }
@@ -63,25 +54,31 @@ std::pair<int, int> findDamagedShip(Field &field) {
     return std::pair<int, int>(-1, -1);
 }
 
-bool Computer::shootRandomFreeCoordinate(Field &field) {
+bool Computer::shootRandomFreeCoordinate() {
     int even[5] = {0, 2, 4, 6, 8};
     int odd[5] = {1, 3, 5, 7, 9};
     while (true) {
-        int x = rand.GetRandomNumberBetween(0, 9);
-        int y = rand.GetRandomNumberBetween(0, 4);
-        if(x % 2){ //if odd
-            y = odd[y];
-        }else{ //even
-            y = even[y];
+        int x = rand->getRandomNumberBetween(0, 9);
+        int y;
+        if(hardDifficulty){
+            y = rand->getRandomNumberBetween(0, 4); //random element of array even/odd, sized 5
+            if(x % 2){ //if odd
+                y = odd[y];
+            }else{ //even
+                y = even[y];
+            }
+        }else{
+            y = rand->getRandomNumberBetween(0, 9);
         }
-        if (!field.isShot(x, y)) {
-            field.shoot(x, y);
-            if(field.isShip(x, y)){
+
+        if (!enemyField->isShot(x, y)) {
+            enemyField->shoot(x, y);
+            if(enemyField->isShip(x, y)){
                 std::cout << "Der Bot hat getroffen! Er ist nochmal am Zug. \n";
             }else{
                 std::cout << "Der Bot hat nichts getroffen. \n";
             }
-            return field.isShip(x, y);
+            return enemyField->isShip(x, y);
         }
     }
 }
@@ -90,7 +87,7 @@ bool Computer::shootRandomFreeCoordinate(Field &field) {
  * Continues shooting in the direction until there is no ship or the board ends.
  * Return value signals if computer can make another move.
  */
-bool continueShootingDirection(Field &field, int dir, int x, int y) {
+bool Computer::continueShootingDirection(int dir, int x, int y) {
     if (dir == 0) {
         if (x >= 9) return true; // right border reached
         x++;
@@ -104,57 +101,65 @@ bool continueShootingDirection(Field &field, int dir, int x, int y) {
         if (y <= 0) return true; // upper border reached
         y--;
     }
-    if (field.isShot(x, y) && !field.isShip(x, y)) { // end of ship which was previously found
+    if (enemyField->isShot(x, y) && !enemyField->isShip(x, y)) { // end of ship which was previously found
         return true;
     }
-    field.shoot(x, y);
-    if (field.isShip(x, y)) { // shot ship, continue shooting this direction
+    enemyField->shoot(x, y);
+    if (enemyField->isShip(x, y)) { // shot ship, continue shooting this direction
         std::cout << "Der Bot hat getroffen! Er ist nochmal am Zug. \n";
-        return continueShootingDirection(field, dir, x, y);
+        return continueShootingDirection(dir, x, y);
     }else{
         std::cout << "Der Bot hat nichts getroffen. \n";
     }
     return false; // no ship where the shot hit, move finished
 }
 
-bool Computer::guessOrientation(Field field, int x, int y) {
-    if (x > 0 && field.isShot(x - 1, y) && field.isShip(x - 1, y) 
-    || x < 9 && field.isShot(x + 1, y) && field.isShip(x + 1, y)) {
+bool Computer::guessOrientation(int x, int y) {
+    if (x > 0 && enemyField->isShot(x - 1, y) && enemyField->isShip(x - 1, y) 
+    || x < 9 && enemyField->isShot(x + 1, y) && enemyField->isShip(x + 1, y)) {
         return 1;
     }
-    if (y > 0 && field.isShot(x, y - 1) && field.isShip(x, y - 1) 
-    || y < 9 && field.isShot(x, y + 1) && field.isShip(x, y + 1)) {
+    if (y > 0 && enemyField->isShot(x, y - 1) && enemyField->isShip(x, y - 1) 
+    || y < 9 && enemyField->isShot(x, y + 1) && enemyField->isShip(x, y + 1)) {
         return 0;
     }
-    return rand.GetRandomNumberBetween(0, 1);
+    return rand->getRandomNumberBetween(0, 1);
 }
 
-void Computer::continueFindingShip(Field &field, int x, int y) {
-    bool orientation = guessOrientation(field, x, y);
+void Computer::continueFindingShip(int x, int y) {
+    bool orientation = guessOrientation(x, y);
     for (int i = 0; i < 4; i++) {
         int dir = orientation ? i : (i + 2) % 4;
-        bool moveFinished = !continueShootingDirection(field, dir, x, y);
+        bool moveFinished = !continueShootingDirection(dir, x, y);
         if (moveFinished) {
             return;
         }
-        if (field.isCompletelySunken(x, y)) {
-            if(!field.isFinished()){ //dont shoot again if last ship is sunken
+        if (enemyField->isCompletelySunken(x, y)) {
+            if(!enemyField->isFinished()){ //dont shoot again if last ship is sunken
                 std::cout << "Der Bot hat ein Schiff versenkt. \n";
-                shoot(field);
+                shoot();
             }
             return;
         }
     }
 }
 
-void Computer::shoot(Field &enemyField) {
-    std::pair<int, int> coords = findDamagedShip(enemyField);
+void Computer::shoot() {
+    std::pair<int, int> coords = findDamagedShip();
     if (coords.first == -1) {
-        bool hit = shootRandomFreeCoordinate(enemyField);
+        bool hit = shootRandomFreeCoordinate();
         if (hit) {
-            shoot(enemyField);
+            shoot();
         }
-    } else if (true) {    //else?
-        continueFindingShip(enemyField, coords.first, coords.second);
+    } else {
+        continueFindingShip(coords.first, coords.second);
     }
+}
+
+void Computer::setHardDifficulty(bool difficulty){
+    hardDifficulty = difficulty;
+}
+
+bool Computer::getHardDifficulty(){
+    return hardDifficulty;
 }
