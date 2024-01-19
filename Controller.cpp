@@ -82,7 +82,6 @@ void Controller::newGame() {
 }
 
 void Controller::playerPlaceAllShips() {
-    char reset;
     for (int i = 1; i <= 4; i++) {
         int size = 6 - i;
         for (int j = 0; j < i; j++) {
