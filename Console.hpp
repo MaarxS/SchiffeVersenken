@@ -21,8 +21,9 @@ class Console {
     public:
     enum Mode {STOP_PROGRAM, NEW_GAME, LOAD_GAME, SAVE_GAME, CONTINUE_GAME};
     Mode menuInput(bool withMidgameOption);
-    ship_t shipInput(int size, int count);
-    coordinates_t coordinateInput(bool stopAllowed);
+    ship_t shipInput(int size, int count, int fieldsize);
+    coordinates_t coordinateInput(bool stopAllowed, int limit);
     bool botDifficulty();
+    int fieldSize();
     
 };

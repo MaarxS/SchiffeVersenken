@@ -6,9 +6,10 @@ typedef struct {
 } Cell;
 
 class Field {
-    Cell field[10][10];
+    Cell field[25][25];
     bool isShipAdjacent(int x, int y);
     void shootAroundShip(int x, int y);
+    int fieldLimit;
 
     public:
     bool placeShip(int startx, int starty, int endx, int endy);
@@ -23,4 +24,6 @@ class Field {
     bool isFinished();
     void printField(bool isOwnField);
     bool isBlocked();
+    int getFieldLimit();
+    void setFieldLimit(int limit);
 };

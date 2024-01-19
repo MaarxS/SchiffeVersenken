@@ -59,7 +59,7 @@ bool Console::isDigit(std::string &str) {
  * 
  * The boat returns always has the smaller coordinates first and the size is ensured.
 */
-ship_t Console::shipInput(int size, int count) {
+ship_t Console::shipInput(int size, int count, int fieldsize) {
     std::string shipName;
     if (size == 5) {
         shipName = "Schlachtschiffes";
@@ -74,9 +74,9 @@ ship_t Console::shipInput(int size, int count) {
     coordinates_t end;
     while (true) {
         std::cout << "Bitte geben Sie die Startposition ihres "<< count << ". " << shipName << " (" << size << ") an: " << std::endl;
-        start = coordinateInput(false);
+        start = coordinateInput(false, fieldsize);
         std::cout << "Bitte geben Sie die Endposition ihres " << count << ". " << shipName << " (" << size << ") an: " << std::endl;
-        end = coordinateInput(false);
+        end = coordinateInput(false, fieldsize);
 
         int swap;               // Sortierung der Koordinatenwerte nach Größe
         if(start.y > end.y) {
@@ -105,37 +105,54 @@ ship_t Console::shipInput(int size, int count) {
  * Returns {-1, -1} if the user entered stop and stopAllowed is true.
  * Otherwise returns the coordinate.
 */
-coordinates_t Console::coordinateInput(bool stopAllowed){
+coordinates_t Console::coordinateInput(bool stopAllowed, int limit){
     std::string coordinates;
     int xValue;
     int yValue;
-    std::string errorMessage = "Bitte geben Sie Koordinaten bestehend aus einem Buchstabe von A-J und einer Ziffer von 0-9 an.\n";
+    std::string errorMessage = "Bitte geben Sie Koordinaten bestehend aus einem Buchstabe von A-J und einer Ziffer von 0-" + std::to_string(limit -1) + " an.\n";
 
     while(true){
         std::cin >> coordinates;
         if(coordinates == "stop" && stopAllowed) {
             return {-1, -1};
         }
-        if(coordinates.length() != 2){
-            std::cout << errorMessage;
-            continue;
-        }
-        if(isdigit(coordinates[0])){
-            xValue = coordinates[0] - '0';
-            coordinates[1] = std::tolower(coordinates[1]);
-            yValue = coordinates[1]- 'a';
-        }else if(isdigit(coordinates[1])){
-             xValue = coordinates[1] - '0';
-            coordinates[0] = std::tolower(coordinates[0]);
-            yValue = coordinates[0] - 'a';
+        if(coordinates.length() == 3){
+            std::string substr1 = coordinates.substr(0,2);
+            std::string substr2 = coordinates.substr(1,2);
+            if(isDigit(substr1)){
+                xValue = std::stoi(substr1);
+                coordinates[2] = std::tolower(coordinates[2]);
+                yValue = coordinates[2] - 'a';
+            }else if(isDigit(substr2)){
+                xValue = std::stoi(substr2);
+                coordinates[0] = std::tolower(coordinates[0]);
+                yValue = coordinates[0] - 'a';
+            }else{
+                std::cout << errorMessage;
+                continue;
+            }
+        }else if(coordinates.length() == 2){
+            if(isdigit(coordinates[0])){
+                xValue = coordinates[0] - '0';
+                coordinates[1] = std::tolower(coordinates[1]);
+                yValue = coordinates[1]- 'a';
+            }else if(isdigit(coordinates[1])){
+                xValue = coordinates[1] - '0';
+                coordinates[0] = std::tolower(coordinates[0]);
+                yValue = coordinates[0] - 'a';
+            }else{
+                std::cout << errorMessage;
+                continue;
+            }
         }else{
             std::cout << errorMessage;
             continue;
         }
-        if(xValue > 9 || xValue < 0 || yValue > 9 || yValue < 0){
+        if(xValue > (limit -1) || xValue < 0 || yValue > (limit -1) || yValue < 0){
             std::cout << errorMessage;
             continue;
         }
+        std::cout << xValue << " " << yValue << std::endl;
         return {xValue, yValue};
     }
 }
@@ -150,4 +167,9 @@ bool Console::botDifficulty(){
         return true;
     }
     return false;
+}
+int Console::fieldSize(){
+    std::cout << "Bitte geben Sie die Kantenlaenge des Feldes an: " <<  std::endl;
+    int size = numberInput(2, 25);
+    return size;
 }

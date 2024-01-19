@@ -24,8 +24,8 @@ bool Save::saveGame(std::shared_ptr<Field> playerField, std::shared_ptr<Field> b
 }
 
 void Save::saveField(std::shared_ptr<Field> field, std::ofstream &myFile){
-    for(int i = 0; i < 10; i++){
-        for(int j = 0; j < 10; j++){
+    for(int i = 0; i < field->getFieldLimit(); i++){
+        for(int j = 0; j < field->getFieldLimit(); j++){
             bool isShot = field->isShot(j, i);
             bool isShip = field->isShip(j, i);
             if(isShip && isShot){
@@ -59,9 +59,9 @@ bool Save::loadGame(std::shared_ptr<Field> playerField, std::shared_ptr<Field> b
         return false;
     }    
 }
-
 void Save::loadField(std::shared_ptr<Field> field, std::ifstream &myFile){
     int counter = 0;
+    int fieldLength = 0;
     std::string line;
     while(getline(myFile,line)){
         for(int j = 0; j < line.length(); j++){
@@ -81,7 +81,10 @@ void Save::loadField(std::shared_ptr<Field> field, std::ifstream &myFile){
             }
         }
         counter++;
-        if(counter == 10){
+        std::cout << counter << std::endl;
+        if(counter == line.length()){
+            std::cout << "aaa" << std::endl;
+            field->setFieldLimit(counter);
             return;
         }
     }

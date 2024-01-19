@@ -34,6 +34,7 @@ void Controller::start() {
 bool Controller::menu(Console::Mode mode) {
     bool saveSuccess;
     bool hardBot;
+    int fieldSize;
     std::string fileName;
     switch(mode){
         case Console::STOP_PROGRAM:
@@ -41,6 +42,9 @@ bool Controller::menu(Console::Mode mode) {
         case Console::NEW_GAME:
             hardBot = console->botDifficulty();
             computer->setHardDifficulty(hardBot);
+            fieldSize = console->fieldSize();
+            botField->setFieldLimit(fieldSize);
+            playerField->setFieldLimit(fieldSize);
             newGame();
             return false;
         case Console::LOAD_GAME:
@@ -100,7 +104,7 @@ void Controller::playerPlaceAllShips() {
 void Controller::playerPlaceShip(int size, int count) {
     bool inputCorrect;
     do {
-        auto ship = console->shipInput(size, count);
+        auto ship = console->shipInput(size, count, playerField->getFieldLimit());
         inputCorrect = playerField->placeShip(ship.start.x, ship.start.y, ship.end.x, ship.end.y); // Überprüfung auf Fehler gegen die Spiellogik
         if (!inputCorrect) {
             std::cout << "Bitte achten Sie darauf, dass die Schiffe sich nicht schneiden, beruehren oder diagonal platziert werden. " << std::endl;
@@ -129,7 +133,7 @@ void Controller::gameLoop() {
             std::cout << "Gegnerisches Feld:" << std::endl;
             botField->printField(false);
             std::cout << "Bitte geben Sie Ihre Zielkoordinaten an." << std::endl;
-            auto coord = console->coordinateInput(true);
+            auto coord = console->coordinateInput(true, botField->getFieldLimit());
             if(coord.x == -1 && coord.y == -1){
                 return;
             }

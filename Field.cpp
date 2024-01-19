@@ -26,16 +26,16 @@ bool Field::placeShip(int startx, int starty, int endx, int endy) {
 }
 
 void Field::clear() {
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
+    for (int i = 0; i < fieldLimit; i++) {
+        for (int j = 0; j < fieldLimit; j++) {
             field[j][i].ship = false;
             field[j][i].hit = false;
         }
     }
 }
 bool Field::isClear(){
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
+    for (int i = 0; i < fieldLimit; i++) {
+        for (int j = 0; j < fieldLimit; j++) {
             if(field[j][i].ship || field[j][i].hit){
                 return false;
             }
@@ -64,8 +64,8 @@ bool Field::isShot(int x, int y) {
 }
 bool Field::isFinished() {
     int count = 0;
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
+    for (int i = 0; i < fieldLimit; i++) {
+        for (int j = 0; j < fieldLimit; j++) {
             if (field[j][i].ship && field[j][i].hit) {
                 count++;
             }
@@ -75,48 +75,56 @@ bool Field::isFinished() {
 }
 
 void Field::printField(bool isOwnField) {
-    std::cout << "  ";
-    for (int i = 0; i <= 9; i++) {
-        std::cout << i << ' ';
+    std::cout <<"   ";
+    for (int i = 0; i < fieldLimit; i++) {
+        std::cout << i <<" ";
+        if(i < 10){
+            std::cout <<" ";
+        }
     }
     std::cout << std::endl;
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < fieldLimit; i++) {
         char columnLabel = 'A' + i;
-        std::cout << columnLabel << ' ';
-        for (int j = 0; j < 10; j++) {
+        std::cout << columnLabel <<"  ";
+        for (int j = 0; j < fieldLimit; j++) {
             if (field[j][i].ship && field[j][i].hit) {
                 if (isCompletelySunken(j, i)) {
-                    std::cout << "\x1B[30mX\033[0m"; //schwarz (versenktes Schiff)
+                    std::cout << "\x1B[30mX\033[0m "; //schwarz (versenktes Schiff)
                 } else {
-                    std::cout << "\x1B[31mX\033[0m"; //rot (getroffen, Schiff nicht versenkt)
+                    std::cout << "\x1B[31mX\033[0m "; //rot (getroffen, Schiff nicht versenkt)
                 }
             } else if (field[j][i].hit) {
-                std::cout << "O"; //Schuss ins Meer
+                std::cout << "O "; //Schuss ins Meer
             } else if (field[j][i].ship && isOwnField) {
-                std::cout << "\xFE"; //weiß (plazierte Schiffe)
+                std::cout << "\xFE "; //weiß (plazierte Schiffe)
             } else {
-                std::cout << "\x1B[36m\xFE\033[0m"; //blau (default Meer)
+                std::cout << "\x1B[36m\xFE\033[0m "; //blau (default Meer)
             }
             std::cout << ' ';
         }
         std::cout << columnLabel << ' ' << std::endl;
     }
-    std::cout << "  ";
-    for (int i = 0; i <= 9; i++) {
-        std::cout << i << ' ';
+    std::cout << "   ";
+    for (int i = 0; i < fieldLimit; i++) {
+        std::cout << i <<" ";
+        if(i < 10){
+            std::cout <<" ";
+        }
     }
     std::cout << std::endl;
 }
 
 bool Field::isShipAdjacent(int x, int y) {
     int xstart = x >= 1 ? x - 1 : x;
-    int xend   = x <= 8 ? x + 1 : x;
+    int xend   = x <= fieldLimit - 1 ? x + 1 : x;
     int ystart = y >= 1 ? y - 1 : y;
-    int yend   = y <= 8 ? y + 1 : y;
+    int yend   = y <= fieldLimit - 1 ? y + 1 : y;
     int count = 0;
     for (int i = xstart; i <= xend; i++) {
         for (int j = ystart; j <= yend; j++) {
+            std::cout << j << " " << i << std::endl;
             if (field[i][j].ship) {
+                std::cout << j << " :(" << i << std::endl;
                 return true;
             }
         }
@@ -245,4 +253,12 @@ bool Field::isBlocked(){ //true if no 2*2 ship fits anywhere
         squareBlocked[i] = false;
     }
     return true;
+}
+
+int Field::getFieldLimit(){
+    return fieldLimit;
+}
+
+void Field::setFieldLimit(int limit){
+    fieldLimit = limit;
 }
