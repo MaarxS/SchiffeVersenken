@@ -158,6 +158,7 @@ void Computer::shoot() {
 
 void Computer::setHardDifficulty(bool difficulty){
     hardDifficulty = difficulty;
+    std::cout << hardDifficulty << std::endl;
 }
 
 bool Computer::getHardDifficulty(){

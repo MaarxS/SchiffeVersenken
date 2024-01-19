@@ -13,8 +13,10 @@ bool Save::saveGame(std::shared_ptr<Field> playerField, std::shared_ptr<Field> b
         saveField(playerField, myFile);
         saveField(botField, myFile);
         if(difficulty){
-
-        }else
+            myFile << '9';
+        }else{
+            myFile << '8';
+        }
         myFile.close();
         return true;
     }
@@ -83,4 +85,30 @@ void Save::loadField(std::shared_ptr<Field> field, std::ifstream &myFile){
             return;
         }
     }
+}
+
+bool Save::loadDifficulty(std::string fileName){
+    if(fileName.size() < 7 || fileName.substr(fileName.size() - 7, fileName.size()) != ".SVgame"){
+        fileName += ".SVgame";
+    }
+    std::ifstream myFile;
+    myFile.open(fileName);
+    if(myFile.is_open()){
+        std::string line;
+         while(getline(myFile,line)){
+            for(int j = 0; j < line.length(); j++){
+                if(line[j] == '8'){
+                    std::cout << "8 \n";
+                    myFile.close();
+                    return false;
+                }else if(line[j] == '9'){
+                    std::cout << "9 \n";
+                    myFile.close();
+                    return true;
+                }
+            }
+        }
+    }
+    myFile.close();
+    return false;
 }

@@ -33,12 +33,13 @@ void Controller::start() {
 */
 bool Controller::menu(Console::Mode mode) {
     bool saveSuccess;
+    bool hardBot;
     std::string fileName;
     switch(mode){
         case Console::STOP_PROGRAM:
             exit(0);
         case Console::NEW_GAME:
-            bool hardBot = console->botDifficulty();
+            hardBot = console->botDifficulty();
             computer->setHardDifficulty(hardBot);
             newGame();
             return false;
@@ -47,6 +48,9 @@ bool Controller::menu(Console::Mode mode) {
             std::cin >> fileName;
             saveSuccess = save->loadGame(playerField, botField, fileName);
             if(saveSuccess){
+                std::cout << "test\n";
+                hardBot = save->loadDifficulty(fileName);
+                computer->setHardDifficulty(hardBot);
                 std::cout << "Die Datei wurde erfolgreich geladen." << std::endl;
             }else{
                 std::cout << "Die Datei konnte nicht gefunden werden." << std::endl;

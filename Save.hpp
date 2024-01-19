@@ -11,4 +11,5 @@ class Save{
     public:
     bool saveGame(std::shared_ptr<Field> playerfield, std::shared_ptr<Field> botfield, std::string filename, bool difficulty);
     bool loadGame(std::shared_ptr<Field> playerfield, std::shared_ptr<Field> botfield, std::string filename);
+    bool loadDifficulty(std::string filename);
 };
