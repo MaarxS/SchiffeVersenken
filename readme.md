@@ -2,7 +2,7 @@
 
 Bei diesem Projekt handelt es sich um ein Hochschulprojekt, welches im Rahmen einer C++ Vorlesung benotet werden soll.
 Da es sich hier um ein Konsolenpogramm mit Farbausgabe handelt, wird empfohlen, eine Konsole zu verwenden, die escape- character 
-unterstützt.
+unterstützt. Das fertige Programm zur Bewertung beschränkt sich auf den Main-Branch. Die anderen Branches sind unvollständig und noch in Entwicklung.
 
 
 ## Legende: 
